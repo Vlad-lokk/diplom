@@ -45,16 +45,16 @@ class AdvancedFuelCalculator:
 
     def load_aircraft_data(self):
         try:
-            with open('src/boeing-738-climb.json', 'r') as f:
+            with open('../src/boeing-738-climb.json', 'r') as f:
                 self.aircraft_data = json.load(f)
         except Exception as e:
             self.show_error(f"Помилка завантаження даних літака: {str(e)}")
 
     def calculate_route_segments(self, route_points):
-        with open('src/airports_esp.json', 'r', encoding='utf-8') as f:
+        with open('../src/airports_esp.json', 'r', encoding='utf-8') as f:
             airports = {a['ident']: a for a in json.load(f)}
 
-        with open('src/vertices_esp.json', 'r', encoding='utf-8') as f:
+        with open('../src/vertices_esp.json', 'r', encoding='utf-8') as f:
             vertices = {v['ident']: v for v in json.load(f)}
 
         points = []
@@ -94,7 +94,8 @@ class AdvancedFuelCalculator:
     def calculate(self):
         try:
             self.fuel_consumed_kg = 0
-            route = self.route_points.get().strip().replace(" ", "").split(',')
+            route = "LEBL LOTOS TORDU DIKUT SOPET VLC SERRA ASTRO POBOS XEBAR YES MAMIS BAZAS VIBAS LEGA"
+            route = route.split()
             if len(route) < 2:
                 raise ValueError("Маршрут має містити мінімум дві точки")
 

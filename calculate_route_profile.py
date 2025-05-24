@@ -14,6 +14,7 @@ def calculate_route_segments(route_points):
     with open('src/vertices_esp.json', 'r', encoding='utf-8') as f:
         vertices_data = json.load(f)
 
+    route_points = route_points.split()
     # Перетворюємо списки на словники за ключем 'ident' для швидкого пошуку
     airports = {entry['ident']: entry for entry in airports_data}
     vertices = {entry['ident']: entry for entry in vertices_data}
@@ -65,17 +66,8 @@ def calculate_route_segments(route_points):
             alt_diff = 0
 
         segments.append({
-            'from': ident1,
-            'to': ident2,
-            'distance_nm': distance_nm,
-            'altitude': alt_diff
+            'ident': ident1 + "-" + ident2,
+            'distance_km': distance_km,
+            'altitude_fl': alt_diff / 1000 * 32.808
         })
     return segments
-
-
-#
-# route_str = "LEBL LOTOS TORDU DIKUT SOPET VLC SERRA ASTRO POBOS  XEBAR YES MAMIS  BAZAS VIBAS LEGA"
-# route_list = route_str.split()
-# segments = calculate_route_segments(route_list)
-# for seg in segments:
-#     print(seg)

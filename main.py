@@ -90,7 +90,7 @@ class AdvancedFuelCalculator:
         # Інші елементи...
         self.height_label = tk.Label(
             self.widget_frame,
-            text="Висота в одиницях",
+            text="Висота FL",
             bg='#f0f0f0'
         )
         self.height_label.pack(pady=5)
@@ -115,9 +115,11 @@ class AdvancedFuelCalculator:
 
     def calculate_cost(self):
         route = self.custom_route_entry.get()
-        print(route)
-        sigments = calculate_route_segments(str(route))
-        print(sigments)
+        height = self.height_entry.get()
+
+        segments = calculate_route_segments(route)
+
+        print(segments)
 
 
 if __name__ == "__main__":
