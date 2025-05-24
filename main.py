@@ -1,5 +1,7 @@
+import json
 import tkinter as tk
 from tkinter import ttk
+from scipy.interpolate import RegularGridInterpolator
 from PIL import Image, ImageTk
 from calculate_route_profile import calculate_route_segments
 
@@ -113,14 +115,113 @@ class AdvancedFuelCalculator:
         except ValueError:
             pass
 
+
     def calculate_cost(self):
         route = self.custom_route_entry.get()
-        height = self.height_entry.get()
+        height_fl = self.height_entry.get()
 
-        segments = calculate_route_segments(route)
+        mass_kg = 65000
+        distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
 
-        print(segments)
+        with open('src/boeing-738-climb.json', 'r') as f:
+            boeing_data_climb = json.load(f)
 
+        climb_data = boeing_data_climb[str(mass_kg)]['0']
+
+        fl = self.calculate_total_climb(climb_data, altitude_fl_start, int(height_fl))
+
+        print(climb_data)
+        print(height_fl, fl)
+        print(distance_km, altitude_fl_start, altitude_fl_end)
+
+    def calculate_climb(self,climb_data, fl_target):
+        # Сортуємо точки за значенням FL
+        sorted_data = sorted(climb_data, key=lambda x: int(x['fl']))
+        fls = [int(point['fl']) for point in sorted_data]
+
+        # Обробка випадків, коли FL виходить за межі даних
+        if fl_target <= fls[0]:
+            # Повертаємо першу точку, якщо FL менше або дорівнює мінімальному
+            lower_idx = upper_idx = 0
+        elif fl_target >= fls[-1]:
+            # Повертаємо останню точку, якщо FL більше або дорівнює максимальному
+            lower_idx = upper_idx = len(fls) - 1
+        else:
+            # Знаходимо інтервал для інтерполяції
+            for i in range(1, len(fls)):
+                if fls[i] >= fl_target:
+                    lower_idx = i - 1
+                    upper_idx = i
+                    break
+
+        # Якщо FL точно співпадає з точкою, повертаємо її значення
+        if fls[lower_idx] == fl_target or lower_idx == upper_idx:
+            point = sorted_data[lower_idx]
+            return {
+                'time': float(point['time']),
+                'distance': float(point['distance']),
+                'fuel': float(point['fuel'])
+            }
+        else:
+            # Лінійна інтерполяція між двома найближчими точками
+            fl_low = fls[lower_idx]
+            fl_high = fls[upper_idx]
+            ratio = (fl_target - fl_low) / (fl_high - fl_low)
+
+            lower_point = sorted_data[lower_idx]
+            upper_point = sorted_data[upper_idx]
+
+            # Інтерполяція значень
+            time = float(lower_point['time']) + (
+                        float(upper_point['time']) - float(lower_point['time'])) * ratio
+            distance = float(lower_point['distance']) + (
+                        float(upper_point['distance']) - float(lower_point['distance'])) * ratio
+            fuel = float(lower_point['fuel']) + (
+                        float(upper_point['fuel']) - float(lower_point['fuel'])) * ratio
+
+            return {
+                'time': round(time, 2),
+                'distance': round(distance, 2),
+                'fuel': round(fuel, 2)
+            }
+
+    def calculate_total_climb(self, climb_data, fl_start, fl_end):
+        sorted_data = sorted(climb_data, key=lambda x: int(x['fl']))
+        fls = [int(point['fl']) for point in sorted_data]
+
+        # Перевіряємо, чи fl_end >= fl_start
+        if fl_start > fl_end:
+            fl_start, fl_end = fl_end, fl_start
+
+        # Визначаємо всі FL у заданому діапазоні (включаючи межі)
+        all_fls = sorted(list(set(fls + [fl_start, fl_end])))
+        relevant_fls = [fl for fl in all_fls if fl_start <= fl <= fl_end]
+        relevant_fls = sorted(relevant_fls)
+
+        # Ініціалізуємо сумарні значення
+        total_time = 0.0
+        total_distance = 0.0
+        total_fuel = 0.0
+
+        # Обчислюємо різниці між послідовними точками
+        for i in range(len(relevant_fls) - 1):
+            current_fl = relevant_fls[i]
+            next_fl = relevant_fls[i + 1]
+
+            # Отримуємо дані для поточної та наступної висоти
+            current_data = self.calculate_climb(climb_data, current_fl)
+            next_data = self.calculate_climb(climb_data, next_fl)
+
+            # Додаємо різницю до суми
+            total_time += next_data['time'] - current_data['time']
+            total_distance += next_data['distance'] - current_data['distance']
+            total_fuel += next_data['fuel'] - current_data['fuel']
+
+        return {
+            'total_time': round(total_time, 2),
+            'total_distance': round(total_distance, 2),
+            'total_fuel': round(total_fuel, 2)
+        }
 
 if __name__ == "__main__":
     root = tk.Tk()

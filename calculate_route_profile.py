@@ -43,7 +43,10 @@ def calculate_route_segments(route_points):
             raise ValueError(f"Точка {ident} не знайдена у файлах даних")
 
     # Обчислюємо відстані та різниці висот між послідовними точками маршруту
-    segments = []
+    distance_km = 0
+    altitude_fl_start = 0
+    altitude_fl_end = 0
+
     for i in range(len(points) - 1):
         ident1, lat1, lon1, alt1 = points[i]
         ident2, lat2, lon2, alt2 = points[i+1]
@@ -56,18 +59,12 @@ def calculate_route_segments(route_points):
         a = math.sin(dphi/2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda/2)**2
         c = 2 * math.asin(math.sqrt(a))
         earth_radius_km = 6371.0  # Радіус Землі в км
-        distance_km = earth_radius_km * c
-        distance_nm = distance_km / 1.852  # Переводимо км у морські милі
+        distance = earth_radius_km * c
         if alt1:
-            alt_diff = alt1
+            altitude_fl_start = alt1 / 1000 * 32.808
         elif alt2:
-            alt_diff = alt2
-        else:
-            alt_diff = 0
+            altitude_fl_end = alt2 / 1000 * 32.808
 
-        segments.append({
-            'ident': ident1 + "-" + ident2,
-            'distance_km': distance_km,
-            'altitude_fl': alt_diff / 1000 * 32.808
-        })
-    return segments
+        distance_km += distance
+
+    return distance_km, altitude_fl_start, altitude_fl_end
