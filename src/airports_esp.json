@@ -1,0 +1,1479 @@
+[
+    {
+        "ident": "LE83",
+        "name": "MOJADOS AIRPORT",
+        "latitude": 41.4646988,
+        "longitude": -4.7142701,
+        "altitude": 2329
+    },
+    {
+        "ident": "LE84",
+        "name": "JAYENA AIRPORT",
+        "latitude": 36.9306984,
+        "longitude": -3.8353801,
+        "altitude": 3654
+    },
+    {
+        "ident": "LE85",
+        "name": "TABLADA AIRPORT",
+        "latitude": 37.3516998,
+        "longitude": -6.0145602,
+        "altitude": 26
+    },
+    {
+        "ident": "LEAB",
+        "name": "ALBACETE",
+        "latitude": 38.94847222,
+        "longitude": -1.863444444,
+        "altitude": 2302
+    },
+    {
+        "ident": "LEAE",
+        "name": "ALCOLEA AIRPORT",
+        "latitude": 37.9460983,
+        "longitude": -4.5894399,
+        "altitude": 637
+    },
+    {
+        "ident": "LEAL",
+        "name": "ALICANTE",
+        "latitude": 38.28222222,
+        "longitude": -0.5580555556,
+        "altitude": 142
+    },
+    {
+        "ident": "LEAM",
+        "name": "ALMERIA",
+        "latitude": 36.84388889,
+        "longitude": -2.37,
+        "altitude": 70
+    },
+    {
+        "ident": "LEAP",
+        "name": "AMPURIABRAVA",
+        "latitude": 42.26,
+        "longitude": 3.109722222,
+        "altitude": 2
+    },
+    {
+        "ident": "LEAS",
+        "name": "ASTURIAS",
+        "latitude": 43.56361111,
+        "longitude": -6.034722222,
+        "altitude": 416
+    },
+    {
+        "ident": "LEAT",
+        "name": "ALFES",
+        "latitude": 41.54888889,
+        "longitude": 0.6488888889,
+        "altitude": 705
+    },
+    {
+        "ident": "LEAX",
+        "name": "LA AXARQUIA LEONI BENABU",
+        "latitude": 36.80166667,
+        "longitude": -4.135555556,
+        "altitude": 118
+    },
+    {
+        "ident": "LEBA",
+        "name": "CORDOBA",
+        "latitude": 37.84194444,
+        "longitude": -4.848888889,
+        "altitude": 297
+    },
+    {
+        "ident": "LEBB",
+        "name": "BILBAO",
+        "latitude": 43.30111111,
+        "longitude": -2.910555556,
+        "altitude": 138
+    },
+    {
+        "ident": "LEBC",
+        "name": "COSTA BRAVA CENTRO",
+        "latitude": 41.81,
+        "longitude": 3.038888889,
+        "altitude": 42
+    },
+    {
+        "ident": "LEBE",
+        "name": "BEAS DE SEGURA",
+        "latitude": 38.27111111,
+        "longitude": -2.948888889,
+        "altitude": 1780
+    },
+    {
+        "ident": "LEBG",
+        "name": "BURGOS",
+        "latitude": 42.35738056,
+        "longitude": -3.613638889,
+        "altitude": 2945
+    },
+    {
+        "ident": "LEBI",
+        "name": "SA SABINA",
+        "latitude": 38.71666667,
+        "longitude": 1.4,
+        "altitude": 44
+    },
+    {
+        "ident": "LEBL",
+        "name": "BARCELONA",
+        "latitude": 41.29694444,
+        "longitude": 2.078333333,
+        "altitude": 12
+    },
+    {
+        "ident": "LEBP",
+        "name": "BP OIL ESPANA",
+        "latitude": 39.95833333,
+        "longitude": -0.0125,
+        "altitude": 943
+    },
+    {
+        "ident": "LEBZ",
+        "name": "BADAJOZ TALAVERA LA REAL",
+        "latitude": 38.89138889,
+        "longitude": -6.821388889,
+        "altitude": 609
+    },
+    {
+        "ident": "LECA",
+        "name": "LA NAVA CORRAL DE AYLLON",
+        "latitude": 41.41083333,
+        "longitude": -3.448333333,
+        "altitude": 3280
+    },
+    {
+        "ident": "LECC",
+        "name": "CAS CURREDO",
+        "latitude": 38.93027778,
+        "longitude": 1.4675,
+        "altitude": 278
+    },
+    {
+        "ident": "LECD",
+        "name": "GIRONA LA CERDANYA",
+        "latitude": 42.38638889,
+        "longitude": 1.866666667,
+        "altitude": 3586
+    },
+    {
+        "ident": "LECF",
+        "name": "CALAF SALLAVINERA",
+        "latitude": 41.74416667,
+        "longitude": 1.556944444,
+        "altitude": 2355
+    },
+    {
+        "ident": "LECH",
+        "name": "CASTELLON AIRPORT",
+        "latitude": 40.212146,
+        "longitude": 0.070059,
+        "altitude": 1181
+    },
+    {
+        "ident": "LECI",
+        "name": "SANTA CILIA DE JACA",
+        "latitude": 42.56972222,
+        "longitude": -0.7277777778,
+        "altitude": 2241
+    },
+    {
+        "ident": "LECJ",
+        "name": "CASTEJON DE LOS MONEGROS",
+        "latitude": 41.60861111,
+        "longitude": -0.2177777778,
+        "altitude": 1424
+    },
+    {
+        "ident": "LECN",
+        "name": "CASTELLON",
+        "latitude": 40.00027778,
+        "longitude": 0.0255555556,
+        "altitude": 20
+    },
+    {
+        "ident": "LECO",
+        "name": "LA CORUNA",
+        "latitude": 43.30194444,
+        "longitude": -8.377222222,
+        "altitude": 326
+    },
+    {
+        "ident": "LECT",
+        "name": "EL CASTANO",
+        "latitude": 39.00888889,
+        "longitude": -4.388333333,
+        "altitude": 2116
+    },
+    {
+        "ident": "LECU",
+        "name": "MADRID CUATRO VIENTOS",
+        "latitude": 40.37055556,
+        "longitude": -3.785277778,
+        "altitude": 2269
+    },
+    {
+        "ident": "LECX",
+        "name": "CAMPOLARA",
+        "latitude": 40.90305556,
+        "longitude": -4.520277778,
+        "altitude": 3353
+    },
+    {
+        "ident": "LEDG",
+        "name": "DIRECCION GENERAL DE TRAFICO",
+        "latitude": 40.45055556,
+        "longitude": -3.644722222,
+        "altitude": 2336
+    },
+    {
+        "ident": "LEDO",
+        "name": "HOSPITAL DOCE DE OCTUBRE",
+        "latitude": 40.39388889,
+        "longitude": -3.696666667,
+        "altitude": 1970
+    },
+    {
+        "ident": "LEEL",
+        "name": "EL MUSEL",
+        "latitude": 43.54972222,
+        "longitude": -5.695277778,
+        "altitude": 1
+    },
+    {
+        "ident": "LEEM",
+        "name": "EL MANANTIO",
+        "latitude": 38.78055556,
+        "longitude": -6.988888889,
+        "altitude": 708
+    },
+    {
+        "ident": "LEEV",
+        "name": "E CASTELLANOS VILLACASTIN",
+        "latitude": 40.78388889,
+        "longitude": -4.462777778,
+        "altitude": 3637
+    },
+    {
+        "ident": "LEEX",
+        "name": "EXPO 92",
+        "latitude": 37.40055556,
+        "longitude": -6.009444444,
+        "altitude": 30
+    },
+    {
+        "ident": "LEFM",
+        "name": "SEGOVIA FUENTEMILANOS",
+        "latitude": 40.88861111,
+        "longitude": -4.2375,
+        "altitude": 3307
+    },
+    {
+        "ident": "LEFR",
+        "name": "FIRA M2 HELIPORT",
+        "latitude": 41.35,
+        "longitude": 2.13,
+        "altitude": 34
+    },
+    {
+        "ident": "LEGA",
+        "name": "GRANADA ARMILLA",
+        "latitude": 37.13333333,
+        "longitude": -3.635833333,
+        "altitude": 2297
+    },
+    {
+        "ident": "LEGC",
+        "name": "ALTAREJOS GUADALCANAL",
+        "latitude": 38.16944444,
+        "longitude": -5.744722222,
+        "altitude": 1928
+    },
+    {
+        "ident": "LEGD",
+        "name": "GARIDELLS",
+        "latitude": 41.21555556,
+        "longitude": 1.241666667,
+        "altitude": 434
+    },
+    {
+        "ident": "LEGE",
+        "name": "GIRONA",
+        "latitude": 41.90083333,
+        "longitude": 2.760555556,
+        "altitude": 468
+    },
+    {
+        "ident": "LEGR",
+        "name": "FEDERICO GARCIA LORCA GRANADA JAEN",
+        "latitude": 37.18873056,
+        "longitude": -3.777355556,
+        "altitude": 1860
+    },
+    {
+        "ident": "LEGS",
+        "name": "HELIPUERTO PARQUE DE GARRAF SITGES",
+        "latitude": 41.27388889,
+        "longitude": 1.914722222,
+        "altitude": 1100
+    },
+    {
+        "ident": "LEGT",
+        "name": "MADRID GETAFE",
+        "latitude": 40.29416667,
+        "longitude": -3.723611111,
+        "altitude": 2031
+    },
+    {
+        "ident": "LEGU",
+        "name": "GUADALUPE",
+        "latitude": 39.34361111,
+        "longitude": -5.192222222,
+        "altitude": 1408
+    },
+    {
+        "ident": "LEGV",
+        "name": "CAMPO GAVIOTA",
+        "latitude": 43.44166667,
+        "longitude": -2.753611111,
+        "altitude": 630
+    },
+    {
+        "ident": "LEGY",
+        "name": "GARRAY SORIA",
+        "latitude": 41.82138889,
+        "longitude": -2.476666667,
+        "altitude": 3360
+    },
+    {
+        "ident": "LEHA",
+        "name": "HOSPITAL ALCORCON",
+        "latitude": 40.34972222,
+        "longitude": -3.837777778,
+        "altitude": 2269
+    },
+    {
+        "ident": "LEHB",
+        "name": "CIUDAD SANITARIA Y UNIVERSITARIA DE BELLVITGE",
+        "latitude": 41.34583333,
+        "longitude": 2.108055556,
+        "altitude": 35
+    },
+    {
+        "ident": "LEHC",
+        "name": "HUESCA PIRINEOS",
+        "latitude": 42.08083333,
+        "longitude": -0.3233333333,
+        "altitude": 1768
+    },
+    {
+        "ident": "LEHE",
+        "name": "HELICSA",
+        "latitude": 39.0725,
+        "longitude": -1.833055556,
+        "altitude": 2226
+    },
+    {
+        "ident": "LEHG",
+        "name": "HOSPITAL GENERAL DE CATALUNYA",
+        "latitude": 41.47361111,
+        "longitude": 2.0425,
+        "altitude": 385
+    },
+    {
+        "ident": "LEHI",
+        "name": "HINOJOSA DEL DUQUE AIRPORT",
+        "latitude": 38.5,
+        "longitude": -5.1170001,
+        "altitude": 1772
+    },
+    {
+        "ident": "LEHJ",
+        "name": "HOSPITAL UNIVERSITARIO JOAN XXIII",
+        "latitude": 41.12888889,
+        "longitude": 1.239722222,
+        "altitude": 75
+    },
+    {
+        "ident": "LEHM",
+        "name": "HOSPITAL GENERAL DE MANRESA",
+        "latitude": 41.72,
+        "longitude": 1.840555556,
+        "altitude": 962
+    },
+    {
+        "ident": "LEIB",
+        "name": "IBIZA",
+        "latitude": 38.87277778,
+        "longitude": 1.373055556,
+        "altitude": 24
+    },
+    {
+        "ident": "LEIG",
+        "name": "IGUALADA ODENA",
+        "latitude": 41.58555556,
+        "longitude": 1.653055556,
+        "altitude": 1148
+    },
+    {
+        "ident": "LEIU",
+        "name": "IURRETA",
+        "latitude": 43.18194444,
+        "longitude": -2.646388889,
+        "altitude": 422
+    },
+    {
+        "ident": "LEIZ",
+        "name": "LA PERDIZ TORRE DE JUAN ABAD",
+        "latitude": 38.515,
+        "longitude": -3.362777778,
+        "altitude": 2902
+    },
+    {
+        "ident": "LEJC",
+        "name": "HOTEL REY JUAN CARLOS I",
+        "latitude": 41.3825,
+        "longitude": 2.109166667,
+        "altitude": 287
+    },
+    {
+        "ident": "LEJO",
+        "name": "MADRIGALEJO DEL MONTE",
+        "latitude": 42.13222222,
+        "longitude": -3.730555556,
+        "altitude": 3030
+    },
+    {
+        "ident": "LEJR",
+        "name": "JEREZ",
+        "latitude": 36.74472222,
+        "longitude": -6.06,
+        "altitude": 93
+    },
+    {
+        "ident": "LEJT",
+        "name": "HOSPITAL JOSEP TRUETA",
+        "latitude": 41.99888889,
+        "longitude": 2.823055556,
+        "altitude": 215
+    },
+    {
+        "ident": "LEJU",
+        "name": "LA JULIANA",
+        "latitude": 37.295,
+        "longitude": -6.1625,
+        "altitude": 148
+    },
+    {
+        "ident": "LELA",
+        "name": "LA CALDERERA",
+        "latitude": 38.74555556,
+        "longitude": -3.533611111,
+        "altitude": 2644
+    },
+    {
+        "ident": "LELC",
+        "name": "MURCIA SAN JAVIER",
+        "latitude": 37.775,
+        "longitude": -0.8125,
+        "altitude": 11
+    },
+    {
+        "ident": "LELH",
+        "name": "ALHAMA DE MURCIA",
+        "latitude": 37.75222222,
+        "longitude": -1.3025,
+        "altitude": 669
+    },
+    {
+        "ident": "LELI",
+        "name": "LINARES",
+        "latitude": 38.09083333,
+        "longitude": -3.706666667,
+        "altitude": 1033
+    },
+    {
+        "ident": "LELL",
+        "name": "SABADELL",
+        "latitude": 41.52083333,
+        "longitude": 2.105,
+        "altitude": 485
+    },
+    {
+        "ident": "LELM",
+        "name": "ALMANSA",
+        "latitude": 38.90111111,
+        "longitude": -1.109444444,
+        "altitude": 2248
+    },
+    {
+        "ident": "LELN",
+        "name": "LEON",
+        "latitude": 42.58861111,
+        "longitude": -5.656111111,
+        "altitude": 3006
+    },
+    {
+        "ident": "LELO",
+        "name": "LOGRONO AGONCILLO",
+        "latitude": 42.45416667,
+        "longitude": -2.320833333,
+        "altitude": 1161
+    },
+    {
+        "ident": "LELT",
+        "name": "LILLO",
+        "latitude": 39.71694444,
+        "longitude": -3.320555556,
+        "altitude": 2272
+    },
+    {
+        "ident": "LEMD",
+        "name": "MADRID BARAJAS",
+        "latitude": 40.47222222,
+        "longitude": -3.560833333,
+        "altitude": 2001
+    },
+    {
+        "ident": "LEMF",
+        "name": "MAFE GIBRALEON",
+        "latitude": 37.36222222,
+        "longitude": -6.921944444,
+        "altitude": 86
+    },
+    {
+        "ident": "LEMG",
+        "name": "MALAGA COSTA DEL SOL",
+        "latitude": 36.675,
+        "longitude": -4.499166667,
+        "altitude": 53
+    },
+    {
+        "ident": "LEMH",
+        "name": "MENORCA",
+        "latitude": 39.8625,
+        "longitude": 4.218611111,
+        "altitude": 302
+    },
+    {
+        "ident": "LEMN",
+        "name": "HELI MONTSIA AMPOSTA",
+        "latitude": 40.66638889,
+        "longitude": 0.5647222222,
+        "altitude": 254
+    },
+    {
+        "ident": "LEMO",
+        "name": "SEVILLA MORON",
+        "latitude": 37.17491667,
+        "longitude": -5.615944444,
+        "altitude": 285
+    },
+    {
+        "ident": "LEMP",
+        "name": "LOS MARTINEZ DEL PUERTO",
+        "latitude": 37.79888889,
+        "longitude": -1.0975,
+        "altitude": 534
+    },
+    {
+        "ident": "LEMR",
+        "name": "ASTURIAS LA MORGAL",
+        "latitude": 43.42972222,
+        "longitude": -5.856666667,
+        "altitude": 541
+    },
+    {
+        "ident": "LEMS",
+        "name": "MANRESA",
+        "latitude": 41.76416667,
+        "longitude": 1.861388889,
+        "altitude": 897
+    },
+    {
+        "ident": "LEMT",
+        "name": "TOLEDO CASARRUBIOS DEL MONTE",
+        "latitude": 40.235,
+        "longitude": -4.026388889,
+        "altitude": 2050
+    },
+    {
+        "ident": "LEMU",
+        "name": "MUCHAMIEL",
+        "latitude": 38.43888889,
+        "longitude": -0.475,
+        "altitude": 427
+    },
+    {
+        "ident": "LEMX",
+        "name": "LA MANCHA",
+        "latitude": 39.55555556,
+        "longitude": -3.251388889,
+        "altitude": 2405
+    },
+    {
+        "ident": "LENA",
+        "name": "BENABARRE",
+        "latitude": 42.02277778,
+        "longitude": 0.4822222222,
+        "altitude": 2450
+    },
+    {
+        "ident": "LENB",
+        "name": "CALA N BLANES",
+        "latitude": 39.9975,
+        "longitude": 3.813333333,
+        "altitude": 27
+    },
+    {
+        "ident": "LENH",
+        "name": "NOU HOSPITAL DE MATARO",
+        "latitude": 41.56083333,
+        "longitude": 2.429722222,
+        "altitude": 638
+    },
+    {
+        "ident": "LENM",
+        "name": "HOSPITAL CAN MISSES",
+        "latitude": 38.9175,
+        "longitude": 1.419444444,
+        "altitude": 91
+    },
+    {
+        "ident": "LEOC",
+        "name": "TOLEDO OCANA",
+        "latitude": 39.9375,
+        "longitude": -3.503333333,
+        "altitude": 2405
+    },
+    {
+        "ident": "LEOR",
+        "name": "HELIPUERTO DEL PARQUE DE BOMBEROS DE ORRIOLS",
+        "latitude": 42.13222222,
+        "longitude": 2.903888889,
+        "altitude": 530
+    },
+    {
+        "ident": "LEOT",
+        "name": "ONTUR",
+        "latitude": 38.61694444,
+        "longitude": -1.525,
+        "altitude": 2200
+    },
+    {
+        "ident": "LEPA",
+        "name": "PALMA DE MALLORCA",
+        "latitude": 39.55166667,
+        "longitude": 2.738888889,
+        "altitude": 27
+    },
+    {
+        "ident": "LEPB",
+        "name": "HELIPUERTO DE LA AUTORIADAD PORTUARIA DE BARCELONA",
+        "latitude": 41.36472222,
+        "longitude": 2.183055556,
+        "altitude": 29
+    },
+    {
+        "ident": "LEPI",
+        "name": "CASAS DE LOS PINOS",
+        "latitude": 39.29916667,
+        "longitude": -2.378333333,
+        "altitude": 2370
+    },
+    {
+        "ident": "LEPP",
+        "name": "PAMPLONA",
+        "latitude": 42.77,
+        "longitude": -1.646388889,
+        "altitude": 1504
+    },
+    {
+        "ident": "LEPR",
+        "name": "PALMA DEL RIO",
+        "latitude": 37.71694444,
+        "longitude": -5.2125,
+        "altitude": 408
+    },
+    {
+        "ident": "LEPS",
+        "name": "MAS PASSAMANER",
+        "latitude": 41.18611111,
+        "longitude": 1.16,
+        "altitude": 480
+    },
+    {
+        "ident": "LEPV",
+        "name": "COSTA NORTE PUERTO DE VIVEIRO CELEIRO",
+        "latitude": 43.67472222,
+        "longitude": -7.595,
+        "altitude": 13
+    },
+    {
+        "ident": "LEPY",
+        "name": "EL PORTINYOL",
+        "latitude": 41.58388889,
+        "longitude": 2.560833333,
+        "altitude": 200
+    },
+    {
+        "ident": "LEPZ",
+        "name": "POZUELOS DE CALATRAVA",
+        "latitude": 38.91222222,
+        "longitude": -4.191111111,
+        "altitude": 1850
+    },
+    {
+        "ident": "LERA",
+        "name": "R A C C",
+        "latitude": 41.38333333,
+        "longitude": 2.108333333,
+        "altitude": 300
+    },
+    {
+        "ident": "LERE",
+        "name": "REQUENA",
+        "latitude": 39.47472222,
+        "longitude": -1.034444444,
+        "altitude": 2330
+    },
+    {
+        "ident": "LERG",
+        "name": "BERGA",
+        "latitude": 42.10555556,
+        "longitude": 1.853333333,
+        "altitude": 2300
+    },
+    {
+        "ident": "LERI",
+        "name": "MURCIA ALCANTARILLA",
+        "latitude": 37.95222222,
+        "longitude": -1.230833333,
+        "altitude": 250
+    },
+    {
+        "ident": "LERJ",
+        "name": "LA RIOJA LOGRONO",
+        "latitude": 42.460525,
+        "longitude": -2.320488889,
+        "altitude": 1156
+    },
+    {
+        "ident": "LERM",
+        "name": "ROBLEDILLO DE MOHERNANDO",
+        "latitude": 40.86527778,
+        "longitude": -3.247777778,
+        "altitude": 3097
+    },
+    {
+        "ident": "LERO",
+        "name": "LUGO ROZAS",
+        "latitude": 43.11694444,
+        "longitude": -7.470277778,
+        "altitude": 1444
+    },
+    {
+        "ident": "LERS",
+        "name": "REUS",
+        "latitude": 41.1475,
+        "longitude": 1.167222222,
+        "altitude": 233
+    },
+    {
+        "ident": "LERT",
+        "name": "CADIZ ROTA",
+        "latitude": 36.645,
+        "longitude": -6.349444444,
+        "altitude": 86
+    },
+    {
+        "ident": "LERV",
+        "name": "SERVEI D EVACUACIO DEL CIRCUIT DE CATALUNYA",
+        "latitude": 41.57305556,
+        "longitude": 2.262777778,
+        "altitude": 406
+    },
+    {
+        "ident": "LESA",
+        "name": "SALAMANCA MATACAN",
+        "latitude": 40.952025,
+        "longitude": -5.502022222,
+        "altitude": 2595
+    },
+    {
+        "ident": "LESB",
+        "name": "MALLORCA SON BONET",
+        "latitude": 39.59888889,
+        "longitude": 2.702777778,
+        "altitude": 157
+    },
+    {
+        "ident": "LESE",
+        "name": "SAN ENRIQUE",
+        "latitude": 38.73083333,
+        "longitude": -4.313055556,
+        "altitude": 2263
+    },
+    {
+        "ident": "LESG",
+        "name": "SANGUESA",
+        "latitude": 42.56555556,
+        "longitude": -1.284722222,
+        "altitude": 1297
+    },
+    {
+        "ident": "LESL",
+        "name": "SAN LUIS",
+        "latitude": 39.86222222,
+        "longitude": 4.258333333,
+        "altitude": 197
+    },
+    {
+        "ident": "LESO",
+        "name": "SAN SEBASTIAN",
+        "latitude": 43.35638889,
+        "longitude": -1.790555556,
+        "altitude": 16
+    },
+    {
+        "ident": "LESP",
+        "name": "HOSPITAL SAN PAU",
+        "latitude": 41.41472222,
+        "longitude": 2.173055556,
+        "altitude": 265
+    },
+    {
+        "ident": "LESS",
+        "name": "SOTOS",
+        "latitude": 40.20416667,
+        "longitude": -2.143888889,
+        "altitude": 3170
+    },
+    {
+        "ident": "LEST",
+        "name": "SANTIAGO",
+        "latitude": 42.89633333,
+        "longitude": -8.415141667,
+        "altitude": 1213
+    },
+    {
+        "ident": "LESU",
+        "name": "ANDORRA LA SEU DURGELL",
+        "latitude": 42.34611111,
+        "longitude": 1.414722222,
+        "altitude": 2625
+    },
+    {
+        "ident": "LETA",
+        "name": "SERVEI GENERALS DEL CIRCUIT DE CATALUNYA",
+        "latitude": 41.57333333,
+        "longitude": 2.258055556,
+        "altitude": 470
+    },
+    {
+        "ident": "LETC",
+        "name": "MATILLA DE LOS CANOS",
+        "latitude": 41.53055556,
+        "longitude": -4.925,
+        "altitude": 2300
+    },
+    {
+        "ident": "LETE",
+        "name": "MORANTE",
+        "latitude": 39.03694444,
+        "longitude": -6.690555556,
+        "altitude": 703
+    },
+    {
+        "ident": "LETF",
+        "name": "TOMAS FERNANDEZ ESPADA CADIZ",
+        "latitude": 36.871793,
+        "longitude": -5.648775,
+        "altitude": 470
+    },
+    {
+        "ident": "LETI",
+        "name": "EL TIETAR",
+        "latitude": 40.24388889,
+        "longitude": -4.794444444,
+        "altitude": 1401
+    },
+    {
+        "ident": "LETM",
+        "name": "SANT MARTI DE SESCORTS",
+        "latitude": 42.01583333,
+        "longitude": 2.319166667,
+        "altitude": 1672
+    },
+    {
+        "ident": "LETO",
+        "name": "MADRID TORREJON",
+        "latitude": 40.49666667,
+        "longitude": -3.445833333,
+        "altitude": 2026
+    },
+    {
+        "ident": "LETP",
+        "name": "SANTO TOME DEL PUERTO",
+        "latitude": 41.20416667,
+        "longitude": -3.594722222,
+        "altitude": 3638
+    },
+    {
+        "ident": "LETR",
+        "name": "TREMP",
+        "latitude": 42.16944444,
+        "longitude": 0.8927777778,
+        "altitude": 1930
+    },
+    {
+        "ident": "LETS",
+        "name": "TORRE PICASSO",
+        "latitude": 40.45277778,
+        "longitude": -3.705555556,
+        "altitude": 2340
+    },
+    {
+        "ident": "LETV",
+        "name": "TIRVIA",
+        "latitude": 42.51916667,
+        "longitude": 1.242777778,
+        "altitude": 3150
+    },
+    {
+        "ident": "LETZ",
+        "name": "TOROZOS",
+        "latitude": 41.78388889,
+        "longitude": -4.865,
+        "altitude": 2784
+    },
+    {
+        "ident": "LEUL",
+        "name": "ULLASTRELL TERESA VILA",
+        "latitude": 41.52583333,
+        "longitude": 1.9725,
+        "altitude": 905
+    },
+    {
+        "ident": "LEVB",
+        "name": "EL CARRASCAL",
+        "latitude": 41.82472222,
+        "longitude": -4.893055556,
+        "altitude": 2788
+    },
+    {
+        "ident": "LEVC",
+        "name": "VALENCIA MANISES",
+        "latitude": 39.48944444,
+        "longitude": -0.4816666667,
+        "altitude": 240
+    },
+    {
+        "ident": "LEVD",
+        "name": "VALLADOLID VILLANUBLA",
+        "latitude": 41.70611111,
+        "longitude": -4.851944444,
+        "altitude": 2776
+    },
+    {
+        "ident": "LEVF",
+        "name": "VILLAFRAMIL",
+        "latitude": 43.5525,
+        "longitude": -7.087777778,
+        "altitude": 80
+    },
+    {
+        "ident": "LEVH",
+        "name": "VIELHA",
+        "latitude": 42.70333333,
+        "longitude": 0.7969444444,
+        "altitude": 3200
+    },
+    {
+        "ident": "LEVI",
+        "name": "EL VISO DEL MARQUES",
+        "latitude": 38.49888889,
+        "longitude": -3.434722222,
+        "altitude": 2672
+    },
+    {
+        "ident": "LEVR",
+        "name": "VILALLER",
+        "latitude": 42.30472222,
+        "longitude": 0.7130555556,
+        "altitude": 2870
+    },
+    {
+        "ident": "LEVT",
+        "name": "VITORIA FORONDA",
+        "latitude": 42.88277778,
+        "longitude": -2.724444444,
+        "altitude": 1682
+    },
+    {
+        "ident": "LEVX",
+        "name": "VIGO",
+        "latitude": 42.22911944,
+        "longitude": -8.627525,
+        "altitude": 856
+    },
+    {
+        "ident": "LEXJ",
+        "name": "SANTANDER",
+        "latitude": 43.42706111,
+        "longitude": -3.820002778,
+        "altitude": 16
+    },
+    {
+        "ident": "LEZG",
+        "name": "ZARAGOZA",
+        "latitude": 41.66611111,
+        "longitude": -1.041666667,
+        "altitude": 863
+    },
+    {
+        "ident": "LEZL",
+        "name": "SEVILLA",
+        "latitude": 37.41805556,
+        "longitude": -5.898888889,
+        "altitude": 112
+    },
+    {
+        "ident": "LEAG",
+        "name": "ALGECIRAS",
+        "latitude": 36.12888889,
+        "longitude": -5.441111111,
+        "altitude": 11
+    },
+    {
+        "ident": "LEAO",
+        "name": "CIUDAD REAL ALMAGRO",
+        "latitude": 38.95333333,
+        "longitude": -3.741388889,
+        "altitude": 2038
+    },
+    {
+        "ident": "LEBT",
+        "name": "VALENCIA BETERA",
+        "latitude": 39.62444444,
+        "longitude": -0.4722222222,
+        "altitude": 417
+    },
+    {
+        "ident": "LECV",
+        "name": "MADRID COLMENAR VIEJO",
+        "latitude": 40.69722222,
+        "longitude": -3.763333333,
+        "altitude": 3262
+    },
+    {
+        "ident": "LEDA",
+        "name": "LLEIDA ALGUAIRE",
+        "latitude": 41.72805556,
+        "longitude": 0.5352777778,
+        "altitude": 1139
+    },
+    {
+        "ident": "LEEC",
+        "name": "SEVILLA EL COPERO",
+        "latitude": 37.31305556,
+        "longitude": -5.999166667,
+        "altitude": 12
+    },
+    {
+        "ident": "LEPO",
+        "name": "MALLORCA POLLENSA",
+        "latitude": 39.89888889,
+        "longitude": 3.098888889,
+        "altitude": 0
+    },
+    {
+        "ident": "LESJ",
+        "name": "PALMA SON SAN JUAN",
+        "latitude": 39.55166389,
+        "longitude": 2.738888889,
+        "altitude": 26
+    },
+    {
+        "ident": "LESN",
+        "name": "MURCIA CARTAGENA SANTA ANA",
+        "latitude": 37.65908333,
+        "longitude": -1.012611111,
+        "altitude": 158
+    },
+    {
+        "ident": "LEVS",
+        "name": "MADRID CUATRO VIENTOS",
+        "latitude": 40.370675,
+        "longitude": -3.785138889,
+        "altitude": 2253
+    },
+    {
+        "ident": "LEXE",
+        "name": "HELIPUERTO COMPLEX EGARA BARCELONA",
+        "latitude": 41.55583333,
+        "longitude": 2.0675,
+        "altitude": 759
+    },
+    {
+        "ident": "LEHS",
+        "name": "HOSPITAL CRUCES DE BARACALDO",
+        "latitude": 43.28277778,
+        "longitude": -2.983888889,
+        "altitude": 150
+    },
+    {
+        "ident": "LETJ",
+        "name": "TREBUJENA",
+        "latitude": 36.86138889,
+        "longitude": -6.140555556,
+        "altitude": 18
+    },
+    {
+        "ident": "LECE",
+        "name": "CENTRE DE GESTIO D EMERGENCIES 112 REUS",
+        "latitude": 41.13388889,
+        "longitude": 1.187222222,
+        "altitude": 198
+    },
+    {
+        "ident": "LEPJ",
+        "name": "VALLE DEL TENA",
+        "latitude": 42.7175,
+        "longitude": -0.2988888889,
+        "altitude": 3592
+    },
+    {
+        "ident": "LEVN",
+        "name": "HELIPUERTO DE VINAROS",
+        "latitude": 40.51972222,
+        "longitude": 0.39,
+        "altitude": 376
+    },
+    {
+        "ident": "LEPF",
+        "name": "PONOFRANQUEADO CACERES",
+        "latitude": 40.311666666667,
+        "longitude": -6.3205555555556,
+        "altitude": 1648
+    },
+    {
+        "ident": "LETL",
+        "name": "TERUEL",
+        "latitude": 40.411944,
+        "longitude": -1.2175,
+        "altitude": 3367
+    },
+    {
+        "ident": "LEGM",
+        "name": "LA MORGAL ASTURIAS",
+        "latitude": 43.429164886475,
+        "longitude": -5.8269500732422,
+        "altitude": 522
+    },
+    {
+        "ident": "LEBF",
+        "name": "BINEFAR",
+        "latitude": 41.85412,
+        "longitude": 0.25473,
+        "altitude": 1361
+    },
+    {
+        "ident": "LEGH",
+        "name": "GUADALUPE ALIA CACERES",
+        "latitude": 39.339168548584,
+        "longitude": -5.2038831710815,
+        "altitude": 1316
+    },
+    {
+        "ident": "LEBD",
+        "name": "EL BODON",
+        "latitude": 40.484558,
+        "longitude": -6.577115,
+        "altitude": 2654
+    },
+    {
+        "ident": "LEBO",
+        "name": "IBIAS PARQUE BOMBEROS ASTURIAS",
+        "latitude": 43.027206,
+        "longitude": -6.884316,
+        "altitude": 2544
+    },
+    {
+        "ident": "LEBS",
+        "name": "HOTEL CAN BONASTRE WINE RESORT MASQUEFA",
+        "latitude": 41.507705,
+        "longitude": 1.787715,
+        "altitude": 902
+    },
+    {
+        "ident": "LEDN",
+        "name": "BOMBERS DE CAMPRODON",
+        "latitude": 42.303697,
+        "longitude": 2.358697,
+        "altitude": 3037
+    },
+    {
+        "ident": "LEDR",
+        "name": "TORRE IBERDROLA",
+        "latitude": 43.267998,
+        "longitude": -2.938636,
+        "altitude": 14
+    },
+    {
+        "ident": "LEGO",
+        "name": "ELCIEGO",
+        "latitude": 42.51615,
+        "longitude": -2.637666,
+        "altitude": 1687
+    },
+    {
+        "ident": "LEHU",
+        "name": "HOSPITAL UNIVERSITARIO CENTRAL DE ASTURIAS EN OVIEDO",
+        "latitude": 43.377218,
+        "longitude": -5.826378,
+        "altitude": 692
+    },
+    {
+        "ident": "LEIC",
+        "name": "C I COCA",
+        "latitude": 41.223393,
+        "longitude": -4.506077,
+        "altitude": 2591
+    },
+    {
+        "ident": "LEIN",
+        "name": "C I PORTOMARIN",
+        "latitude": 42.813449,
+        "longitude": -7.61942,
+        "altitude": 1430
+    },
+    {
+        "ident": "LEIR",
+        "name": "AIR MARUGAN",
+        "latitude": 40.910049,
+        "longitude": -4.369627,
+        "altitude": 3085
+    },
+    {
+        "ident": "LEJD",
+        "name": "HOSPITAL SANT JOAN DE DEU",
+        "latitude": 41.384403,
+        "longitude": 2.102656,
+        "altitude": 406
+    },
+    {
+        "ident": "LEJL",
+        "name": "UNIVERSITARI GERMANS TRIAS I PUJOL",
+        "latitude": 41.479636,
+        "longitude": 2.2385,
+        "altitude": 657
+    },
+    {
+        "ident": "LEMB",
+        "name": "SANITARIOS DE MARBELLA",
+        "latitude": 36.5113889,
+        "longitude": -4.9491667,
+        "altitude": 30
+    },
+    {
+        "ident": "LENG",
+        "name": "C I PRADOLUENGO",
+        "latitude": 42.331599,
+        "longitude": -3.213352,
+        "altitude": 3061
+    },
+    {
+        "ident": "LENU",
+        "name": "NUEVO HOSPITAL DE BURGOS",
+        "latitude": 42.361642,
+        "longitude": -3.683796,
+        "altitude": 2898
+    },
+    {
+        "ident": "LEOS",
+        "name": "LOS OTEROS",
+        "latitude": 42.332599,
+        "longitude": -5.451839,
+        "altitude": 2624
+    },
+    {
+        "ident": "LEPU",
+        "name": "BASE CONTRAINCENDIOS DE PUERTO EL PICO",
+        "latitude": 40.340626,
+        "longitude": -5.013282,
+        "altitude": 4191
+    },
+    {
+        "ident": "LERU",
+        "name": "JAEDO",
+        "latitude": 43.257891,
+        "longitude": -4.251896,
+        "altitude": 948
+    },
+    {
+        "ident": "LESR",
+        "name": "CEE",
+        "latitude": 42.981529,
+        "longitude": -9.237207,
+        "altitude": 253
+    },
+    {
+        "ident": "LETK",
+        "name": "TEKNON",
+        "latitude": 41.406621,
+        "longitude": 2.127991,
+        "altitude": 474
+    },
+    {
+        "ident": "LETN",
+        "name": "TINEO",
+        "latitude": 43.335429,
+        "longitude": -6.378013,
+        "altitude": 2206
+    },
+    {
+        "ident": "LETT",
+        "name": "TROPICOPTER",
+        "latitude": 36.724247,
+        "longitude": -3.526414,
+        "altitude": 7
+    },
+    {
+        "ident": "LEUE",
+        "name": "C I DE HUELMA",
+        "latitude": 37.675356,
+        "longitude": -3.468771,
+        "altitude": 3808
+    },
+    {
+        "ident": "LEXO",
+        "name": "CONTRAINCENDIOS DE MARROXO",
+        "latitude": 42.472963,
+        "longitude": -7.501541,
+        "altitude": 2019
+    },
+    {
+        "ident": "LETB",
+        "name": "HELIPUERTO DE LA BASE CONTRAINCENDIOS DE TABUYO DEL MONTE",
+        "latitude": 42.29583333,
+        "longitude": -6.214722222,
+        "altitude": 3244
+    },
+    {
+        "ident": "LEPL",
+        "name": "HELIPUERTO DE PLASENCIA",
+        "latitude": 39.99111111,
+        "longitude": -6.1325,
+        "altitude": 1337
+    },
+    {
+        "ident": "LEXU",
+        "name": "XURES ORENSE",
+        "latitude": 41.951176,
+        "longitude": -7.957385,
+        "altitude": 2855
+    },
+    {
+        "ident": "LEJE",
+        "name": "JUAN ESPADAFOR",
+        "latitude": 37.0894,
+        "longitude": -3.78833,
+        "altitude": 2542
+    },
+    {
+        "ident": "LEHV",
+        "name": "NUEVO HOSPITAL DE VIGO",
+        "latitude": 42.1878,
+        "longitude": -8.71417,
+        "altitude": 499
+    },
+    {
+        "ident": "LELR",
+        "name": "BASE C I DE LAS ROZAS",
+        "latitude": 40.520373,
+        "longitude": -3.882787,
+        "altitude": 2395
+    },
+    {
+        "ident": "LENY",
+        "name": "HOSPITAL DE CERDANYA GIRONA",
+        "latitude": 41.4441667,
+        "longitude": 1.93,
+        "altitude": 1014
+    },
+    {
+        "ident": "LEAZ",
+        "name": "ALCAZAREN",
+        "latitude": 41.3717,
+        "longitude": -4.69861,
+        "altitude": 2425
+    },
+    {
+        "ident": "LESF",
+        "name": "SAN CARLOS",
+        "latitude": 36.483038,
+        "longitude": -6.186716,
+        "altitude": 10
+    },
+    {
+        "ident": "LEVE",
+        "name": "AERODROMO VIRGEN DE LA ESTRELLA BADAJOZ",
+        "latitude": 38.4206,
+        "longitude": -6.35694,
+        "altitude": 1841
+    },
+    {
+        "ident": "LEGP",
+        "name": "EL RINCONCILLO DE GUADALUPE (CACERES)",
+        "latitude": 39.59451,
+        "longitude": -6.207315,
+        "altitude": 1249
+    },
+    {
+        "ident": "LEAH",
+        "name": "AEROHISPALIS",
+        "latitude": 37.3294,
+        "longitude": -5.72389,
+        "altitude": 157
+    },
+    {
+        "ident": "LERL",
+        "name": "CIUDAD REAL CENTRAL",
+        "latitude": 38.85654,
+        "longitude": -3.969596,
+        "altitude": 2086
+    },
+    {
+        "ident": "LEMI",
+        "name": "MURCIA",
+        "latitude": 37.8030556,
+        "longitude": -1.1247222,
+        "altitude": 644
+    },
+    {
+        "ident": "LEDC",
+        "name": "LA CUESTA",
+        "latitude": 38.530925,
+        "longitude": -2.8325111,
+        "altitude": 2736
+    },
+    {
+        "ident": "LEPT",
+        "name": "PETRA-PEP MERCADER",
+        "latitude": 39.5766667,
+        "longitude": 3.1244444,
+        "altitude": 233
+    },
+    {
+        "ident": "LEVY",
+        "name": "VICENTE HUERTA",
+        "latitude": 39.9558333,
+        "longitude": -0.6231667,
+        "altitude": 2440
+    }
+]
