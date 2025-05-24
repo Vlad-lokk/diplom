@@ -68,15 +68,14 @@ def calculate_route_segments(route_points):
             'from': ident1,
             'to': ident2,
             'distance_nm': distance_nm,
-            'altitude_diff_ft': alt_diff
+            'altitude': alt_diff
         })
     return segments
 
 
-
-route_str = "LEBL LOTOS TORDU DIKUT SOPET VLC SERRA ASTRO POBOS  XEBAR YES MAMIS  BAZAS VIBAS LEGA"
-# LEBL,LOTOS,TORDU,DIKUT,SOPET,VLC,SERRA,ASTRO,POBOS,XEBAR,YES,MAMIS,BAZAS,VIBAS,LEGA
-route_list = route_str.split()
-segments = calculate_route_segments(route_list)
-for seg in segments:
-    print(seg)
+#
+# route_str = "LEBL LOTOS TORDU DIKUT SOPET VLC SERRA ASTRO POBOS  XEBAR YES MAMIS  BAZAS VIBAS LEGA"
+# route_list = route_str.split()
+# segments = calculate_route_segments(route_list)
+# for seg in segments:
+#     print(seg)
