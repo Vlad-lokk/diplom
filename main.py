@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 from scipy.interpolate import RegularGridInterpolator
 from PIL import Image, ImageTk
+
+from bin.prog_mass import interpolate_by_mass
 from calculate_route_profile import calculate_route_segments
 
 
@@ -21,6 +23,10 @@ class AdvancedFuelCalculator:
 
         self.create_widgets()
         self.setup_bindings()
+        self.open_files()
+
+
+        self.calculate_cost() ###################################TODO
 
     def setup_bindings(self):
         # Прив'язка обробника подій тільки до Combobox
@@ -115,27 +121,207 @@ class AdvancedFuelCalculator:
         except ValueError:
             pass
 
-
-    def calculate_cost(self):
-        route = self.custom_route_entry.get()
-        height_fl = self.height_entry.get()
-
-        self.mass_kg = 65000
-        distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
-
+    def open_files(self):
         with open('src/boeing-738-climb.json', 'r') as f:
             self.boeing_data_climb = json.load(f)
 
-        fl = self.calculate_total_climb(altitude_fl_start, int(height_fl))
+        with open('src/boeing-738-cruise.json', 'r') as f:
+            self.boeing_data_cruise = json.load(f)
+
+        with open('src/boeing-738-descent-modified.json', 'r') as f:
+            self.boeing_data_descent = json.load(f)
 
 
-        print(height_fl, fl)
-        print(distance_km, altitude_fl_start, altitude_fl_end)
 
-    def calculate_climb(self,climb_data, fl_target):
+
+
+
+    def calculate_cost(self):
+
+        route = self.custom_route_entry.get()
+        height_fl = self.height_entry.get()
+        self.mass_kg = 65000
+
+        height_fl = 345 ################################################################### TODO
+
+
+
+        distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
+        print(height_fl, distance_km, self.mass_kg)
+
+        climb_info = self.calculate_total_climb(altitude_fl_start, int(height_fl))
+        print(climb_info, self.mass_kg)
+        first_descent_info = self.calculate_total_descent(int(height_fl),altitude_fl_end, calculate_mass=False)
+
+        cruise_distance = distance_km - climb_info['total_distance'] - first_descent_info['total_distance']
+
+        cruise_info = self.calculate_cruise(cruise_distance, int(height_fl))
+
+        print(cruise_info, self.mass_kg)
+
+        descent_info = self.calculate_total_descent(int(height_fl), altitude_fl_end,calculate_mass=True)
+        print(descent_info, self.mass_kg)
+
+        print(climb_info['total_time']+cruise_info['total_time']+descent_info['total_time'],
+              climb_info['total_distance']+cruise_info['total_distance']+descent_info['total_distance'],
+              climb_info['total_fuel']+cruise_info['total_fuel']+descent_info['total_fuel'])
+
+    def calculate_cruise(self, distance_km, flight_level):
+        distance_nm = distance_km / 1.852  # Конвертація в морські милі
+        total_fuel = 0.0
+        total_time = 0.0
+        remaining_distance = distance_nm
+        current_mass = self.mass_kg  # Початкова маса
+
+        while remaining_distance > 0:
+            segment = min(5.0, remaining_distance)  # Сегмент 5 NM або менше
+
+            # 1. Інтерполяція даних для поточної маси
+            interpolated_data = self.interpolate_mass(self.boeing_data_cruise)
+            fl_data = interpolated_data.get('0', [])  # Беремо дані для ISA+0
+
+            # 2. Знаходимо найближчі FL для інтерполяції
+            fl_values = sorted([int(item['fl']) for item in fl_data], key=lambda x: x)
+            lower_fl, upper_fl = None, None
+
+            # Пошук найближчих FL
+            for i, fl in enumerate(fl_values):
+                if fl >= flight_level:
+                    upper_fl = fl
+                    lower_fl = fl_values[i - 1] if i > 0 else fl
+                    break
+            else:
+                lower_fl = upper_fl = fl_values[-1]
+
+            # 3. Інтерполяція TAS та витрати палива
+            lower_entry = next(item for item in fl_data if int(item['fl']) == lower_fl)
+            upper_entry = next(item for item in fl_data if int(item['fl']) == upper_fl)
+
+            # Лінійна інтерполяція
+            if lower_fl == upper_fl:
+                tas = float(lower_entry['tas'])
+                fuel_flow = float(lower_entry['fuel'])
+            else:
+                ratio = (flight_level - lower_fl) / (upper_fl - lower_fl)
+                tas = float(lower_entry['tas']) + (
+                            float(upper_entry['tas']) - float(lower_entry['tas'])) * ratio
+                fuel_flow = float(lower_entry['fuel']) + (
+                            float(upper_entry['fuel']) - float(lower_entry['fuel'])) * ratio
+
+            # 4. Розрахунок часу та палива для сегмента
+            time_segment = segment / tas  # Час у годинах
+            fuel_segment = fuel_flow * time_segment
+
+            # 5. Оновлення даних
+            total_time += time_segment
+            total_fuel += fuel_segment
+            self.mass_kg -= fuel_segment  # Зменшення маси
+            remaining_distance -= segment
+
+        return {
+            'total_time': round(total_time * 60, 2),
+            'total_distance': round(distance_km, 2),
+            'total_fuel': round(total_fuel, 2)
+        }
+
+
+
+    def calculate_descent(self, fl_target):
+        # Використовуємо дані для спуску
+
+
+        descent_data = self.interpolate_mass(self.boeing_data_descent)
+
+        descent_data = descent_data['0']
+
+        # Сортуємо точки за зворотнім порядком FL (від більших до менших)
+        sorted_data = sorted(descent_data, key=lambda x: int(x['fl']))
+        fls = [int(point['fl']) for point in sorted_data]
+
+        # Обробка випадків за межами даних
+        if fl_target >= fls[0]:  # Найвищий доступний FL у даних спуску
+            return {
+                'time': float(sorted_data[0]['time']),
+                'distance': float(sorted_data[0]['distance']),
+                'fuel': float(sorted_data[0]['fuel'])
+            }
+        elif fl_target <= fls[-1]:  # Найнижчий доступний FL
+            return {
+                'time': float(sorted_data[-1]['time']),
+                'distance': float(sorted_data[-1]['distance']),
+                'fuel': float(sorted_data[-1]['fuel'])
+            }
+
+        # Знаходимо інтервал для інтерполяції
+        for i in range(1, len(fls)):
+            if fls[i] <= fl_target:
+                upper_idx = i - 1  # Вищий FL
+                lower_idx = i  # Нижчий FL
+                break
+
+        # Лінійна інтерполяція
+        fl_high = fls[upper_idx]
+        fl_low = fls[lower_idx]
+        ratio = (fl_high - fl_target) / (fl_high - fl_low)
+
+        upper_point = sorted_data[upper_idx]
+        lower_point = sorted_data[lower_idx]
+
+        return {
+            'time': round(float(upper_point['time']) +
+                          (float(lower_point['time']) - float(upper_point['time'])) * ratio, 2),
+            'distance': round(float(upper_point['distance']) +
+                              (float(lower_point['distance']) - float(
+                                  upper_point['distance'])) * ratio, 2),
+            'fuel': round(float(upper_point['fuel']) +
+                          (float(lower_point['fuel']) - float(upper_point['fuel'])) * ratio, 2)
+        }
+
+    def calculate_total_descent(self, fl_start, fl_end, calculate_mass):
+        # Для спуску fl_start має бути вищим за fl_end
+        if fl_start < fl_end:
+            fl_start, fl_end = fl_end, fl_start
+
+        # Інтерполяція для меж
+        start_data = self.calculate_descent(fl_start)
+        end_data = self.calculate_descent(fl_end)
+
+        # Знаходимо всі FL з файлу в діапазоні [fl_start, fl_end]
+        descent_data = self.interpolate_mass(self.boeing_data_descent)
+
+        descent_data = descent_data['0']
+
+        sorted_fls = sorted([int(p['fl']) for p in descent_data], reverse=True)
+        relevant_fls = [fl for fl in sorted_fls if fl_end <= fl <= fl_start]
+
+        total_time = start_data['time'] - end_data['time']
+        total_distance = start_data['distance'] - end_data['distance']
+        total_fuel = start_data['fuel'] - end_data['fuel']
+
+        # Коригування для проміжних точок
+        if relevant_fls:
+            first_fl = relevant_fls[0]
+            last_fl = relevant_fls[-1]
+
+            # Віднімаємо значення між кінцевими точками даних
+            first_data = next(p for p in descent_data if int(p['fl']) == first_fl)
+            last_data = next(p for p in descent_data if int(p['fl']) == last_fl)
+            total_time -= (float(first_data['time']) - float(last_data['time']))
+            total_distance -= (float(first_data['distance']) - float(last_data['distance']))
+            total_fuel -= (float(first_data['fuel']) - float(last_data['fuel']))
+            if calculate_mass:
+                self.mass_kg = self.mass_kg - (float(first_data['fuel']) - float(last_data['fuel']))
+
+        return {
+            'total_time': abs(round(total_time, 2)),
+            'total_distance': abs(round(total_distance, 2)),
+            'total_fuel': abs(round(total_fuel, 2))
+        }
+
+    def calculate_climb(self, fl_target):
         # Сортуємо точки за значенням FL
 
-        climb_data = self.interpolate_mass()
+        climb_data = self.interpolate_mass(self.boeing_data_climb)
 
         climb_data = climb_data['0']
 
@@ -190,7 +376,7 @@ class AdvancedFuelCalculator:
 
     def calculate_total_climb(self, fl_start, fl_end):
 
-        climb_data = self.interpolate_mass()
+        climb_data = self.interpolate_mass(self.boeing_data_climb)
 
         climb_data = climb_data['0']
 
@@ -217,8 +403,8 @@ class AdvancedFuelCalculator:
             next_fl = relevant_fls[i + 1]
 
             # Отримуємо дані для поточної та наступної висоти
-            current_data = self.calculate_climb(climb_data, current_fl)
-            next_data = self.calculate_climb(climb_data, next_fl)
+            current_data = self.calculate_climb(current_fl)
+            next_data = self.calculate_climb(next_fl)
 
             # Додаємо різницю до суми
             total_time += next_data['time'] - current_data['time']
@@ -233,10 +419,9 @@ class AdvancedFuelCalculator:
             'total_fuel': round(total_fuel, 2)
         }
 
-    def interpolate_mass(self):
+    def interpolate_mass(self, aircraft_data):
 
         target_mass = self.mass_kg
-        aircraft_data = self.boeing_data_climb
 
         masses = sorted(aircraft_data.keys(), key=lambda x: int(x))
         target_mass_int = int(target_mass)
@@ -287,12 +472,12 @@ class AdvancedFuelCalculator:
                 temp_data.append({
                     "fl": fl,
                     "time": str(round(float(lower["time"]) + (
-                                float(upper["time"]) - float(lower["time"])) * ratio, 2)),
+                                float(upper["time"]) - float(lower["time"])) * ratio, 2)) if "time" in lower and "time" in upper else 0,
                     "distance": str(round(float(lower["distance"]) + (
-                                float(upper["distance"]) - float(lower["distance"])) * ratio, 2)),
+                                float(upper["distance"]) - float(lower["distance"])) * ratio, 2)) if "distance" in upper and "distance" in lower else 0,
                     "fuel": str(round(float(lower["fuel"]) + (
                                 float(upper["fuel"]) - float(lower["fuel"])) * ratio, 2)),
-                    "ias": lower["ias"],  # Беремо з нижчої маси (або можна інтерполювати)
+                    "ias": lower["ias"] if "ias" in lower else 0,
                     "tas": str(round(
                         float(lower["tas"]) + (float(upper["tas"]) - float(lower["tas"])) * ratio,
                         2))
