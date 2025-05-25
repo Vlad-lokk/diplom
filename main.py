@@ -68,7 +68,7 @@ class AdvancedFuelCalculator:
             self.widget_frame,
             font=custom_font,
             bg='white',
-            text="Маршрут:"
+            text="Рейс:"
         )
         self.route_type_label.pack(pady=5)
 
@@ -157,7 +157,7 @@ class AdvancedFuelCalculator:
 
         # Діапазон FL (можна змінити за потребою)
         if not (40000 <= fl_value <= 85000):
-            messagebox.showerror("Помилка", "Висота повинна бути між 40000 та 85000")
+            messagebox.showerror("Помилка", "Маса повинна бути між 40000 та 85000")
             return False
 
         return True
