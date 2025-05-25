@@ -1,6 +1,6 @@
 import json
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from scipy.interpolate import RegularGridInterpolator
 from PIL import Image, ImageTk
 
@@ -25,8 +25,6 @@ class AdvancedFuelCalculator:
         self.setup_bindings()
         self.open_files()
 
-
-        self.calculate_cost() ###################################TODO
 
     def setup_bindings(self):
         # Прив'язка обробника подій тільки до Combobox
@@ -95,29 +93,18 @@ class AdvancedFuelCalculator:
         )
         self.custom_route_entry.pack(pady=5)
 
-        # Інші елементи...
-        self.height_label = tk.Label(
-            self.widget_frame,
-            text="Висота FL",
-            bg='#f0f0f0'
-        )
-        self.height_label.pack(pady=5)
-
-        self.height_entry = tk.Entry(self.widget_frame, width=20)
-        self.height_entry.pack(pady=5)
-
         self.calculate_button = tk.Button(
             self.widget_frame,
             text="Розрахувати",
-            command=self.calculate_cost
+            command=self._calculate_best_cost
         )
         self.calculate_button.pack(pady=20)
 
         self.on_route_type_change()
 
-    def _calculate_cost(self):
+    def _calculate_best_cost(self):
         try:
-            self.calculate_cost()
+            self.calculate_best_cost()
         except ValueError:
             pass
 
@@ -131,40 +118,73 @@ class AdvancedFuelCalculator:
         with open('src/boeing-738-descent-modified.json', 'r') as f:
             self.boeing_data_descent = json.load(f)
 
+    def validate_inputs(self):
+        # Валідація маршруту
+        route = self.custom_route_entry.get().strip()
+        if not route:
+            messagebox.showerror("Помилка", "Маршрут не може бути порожнім")
+            return False
+
+        return True
 
 
 
+    def calculate_best_cost(self):
 
-
-    def calculate_cost(self):
+        if not self.validate_inputs():
+            return
 
         route = self.custom_route_entry.get()
-        height_fl = self.height_entry.get()
-        self.mass_kg = 65000
-
-        height_fl = 345 ################################################################### TODO
-
-
 
         distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
+
+
+        if altitude_fl_start > altitude_fl_end:
+            fl_test = altitude_fl_start
+        else:
+            fl_test = altitude_fl_end
+
+        lowest_fuel_kg = 0
+        better_height = 0
+        for i in range(int(fl_test), 410):
+            self.mass_kg = 65000
+            result = self.calculate_cost(route, i, distance_km, altitude_fl_start, altitude_fl_end)
+            if lowest_fuel_kg and result[2] < lowest_fuel_kg:
+                lowest_fuel_kg = result[2]
+                better_height = i
+            else:
+                lowest_fuel_kg = result[2]
+        print(lowest_fuel_kg, better_height)
+
+
+    def calculate_cost(self, route, height_fl, distance_km, altitude_fl_start, altitude_fl_end):
+
         print(height_fl, distance_km, self.mass_kg)
 
         climb_info = self.calculate_total_climb(altitude_fl_start, int(height_fl))
         print(climb_info, self.mass_kg)
-        first_descent_info = self.calculate_total_descent(int(height_fl),altitude_fl_end, calculate_mass=False)
+        first_descent_info = self.calculate_total_descent(int(height_fl), altitude_fl_end,
+                                                          calculate_mass=False)
 
-        cruise_distance = distance_km - climb_info['total_distance'] - first_descent_info['total_distance']
+        cruise_distance = distance_km - climb_info['total_distance'] - first_descent_info[
+            'total_distance']
 
         cruise_info = self.calculate_cruise(cruise_distance, int(height_fl))
 
         print(cruise_info, self.mass_kg)
 
-        descent_info = self.calculate_total_descent(int(height_fl), altitude_fl_end,calculate_mass=True)
+        descent_info = self.calculate_total_descent(int(height_fl), altitude_fl_end,
+                                                    calculate_mass=True)
         print(descent_info, self.mass_kg)
 
-        print(climb_info['total_time']+cruise_info['total_time']+descent_info['total_time'],
-              climb_info['total_distance']+cruise_info['total_distance']+descent_info['total_distance'],
-              climb_info['total_fuel']+cruise_info['total_fuel']+descent_info['total_fuel'])
+
+
+        total_info = (climb_info['total_time'] + cruise_info['total_time'] + descent_info['total_time'],
+              climb_info['total_distance'] + cruise_info['total_distance'] + descent_info[
+                  'total_distance'],
+              climb_info['total_fuel'] + cruise_info['total_fuel'] + descent_info['total_fuel'])
+        print(total_info)
+        return total_info
 
     def calculate_cruise(self, distance_km, flight_level):
         distance_nm = distance_km / 1.852  # Конвертація в морські милі

@@ -1,5 +1,7 @@
 import json
 import math
+import requests
+
 
 def calculate_route_segments(route_points):
     """
@@ -68,3 +70,55 @@ def calculate_route_segments(route_points):
         distance_km += distance
 
     return distance_km, altitude_fl_start, altitude_fl_end
+
+#
+# def flight_level_to_pressure(flight_level_ft: int) -> int:
+#     """Конвертація Flight Level у приблизний рівень тиску (hPa)"""
+#     # Спрощена лінійна апроксимація для FL 0-400
+#     return round(1013 - (flight_level_ft / 100) * 22.5)
+#
+#
+# def get_temperature_at_altitude(lat: float, lon: float, pressure_level: int) -> float:
+#     """Отримання температури на заданому рівні тиску через Open-Meteo API"""
+#     url = f"https://api.open-meteo.com/v1/forecast"
+#     params = {
+#         'latitude': lon,
+#         'longitude': lat,
+#         'hourly': f'temperature_{pressure_level}hPa',
+#         'forecast_days': 1
+#     }
+#
+#     try:
+#         response = requests.get(url, params=params)
+#         data = response.json()
+#         return data['hourly']['temperature_' + str(pressure_level) + 'hPa'][0]
+#     except Exception as e:
+#         raise ValueError(f"Помилка отримання даних погоди: {str(e)}")
+#
+#
+# def calculate_average_isa(route_points: list, flight_level_ft: int) -> float:
+#     """
+#     Розрахунок середнього ISA відхилення для маршруту
+#     :param route_points: Список точок маршруту з координатами [(lat1, lon1), (lat2, lon2), ...]
+#     :param flight_level_ft: Крейсерська висота у футах
+#     :return: Середнє відхилення ISA
+#     """
+#     pressure_level = flight_level_to_pressure(flight_level_ft)
+#     deviations = []
+#
+#     for lat, lon in route_points:
+#         # Отримання фактичної температури
+#         actual_temp = get_temperature_at_altitude(lat, lon, pressure_level)
+#
+#         # Розрахунок стандартної температури ISA
+#         isa_temp = 15 - (flight_level_ft / 1000) * 1.98
+#         deviation = actual_temp - isa_temp
+#         deviations.append(deviation)
+#
+#     return round(sum(deviations) / len(deviations), 2)
+#
+# # Приклад використання:
+# route_points = calculate_route_segments("LEBL LOTOS TORDU DIKUT SOPET VLC SERRA ASTRO POBOS XEBAR YES MAMIS BAZAS VIBAS LEGA")  # Ваш маршрут
+# flight_level = 350  # FL350 (35,000 ft)
+# average_isa = calculate_average_isa(route_points[3], flight_level)
+# print(f"Середнє ISA відхилення: {average_isa}°C")
