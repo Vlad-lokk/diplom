@@ -120,22 +120,25 @@ class AdvancedFuelCalculator:
         route = self.custom_route_entry.get()
         height_fl = self.height_entry.get()
 
-        mass_kg = 65000
+        self.mass_kg = 65000
         distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
 
         with open('src/boeing-738-climb.json', 'r') as f:
-            boeing_data_climb = json.load(f)
+            self.boeing_data_climb = json.load(f)
 
-        climb_data = boeing_data_climb[str(mass_kg)]['0']
+        fl = self.calculate_total_climb(altitude_fl_start, int(height_fl))
 
-        fl = self.calculate_total_climb(climb_data, altitude_fl_start, int(height_fl))
 
-        print(climb_data)
         print(height_fl, fl)
         print(distance_km, altitude_fl_start, altitude_fl_end)
 
     def calculate_climb(self,climb_data, fl_target):
         # Сортуємо точки за значенням FL
+
+        climb_data = self.interpolate_mass()
+
+        climb_data = climb_data['0']
+
         sorted_data = sorted(climb_data, key=lambda x: int(x['fl']))
         fls = [int(point['fl']) for point in sorted_data]
 
@@ -185,7 +188,12 @@ class AdvancedFuelCalculator:
                 'fuel': round(fuel, 2)
             }
 
-    def calculate_total_climb(self, climb_data, fl_start, fl_end):
+    def calculate_total_climb(self, fl_start, fl_end):
+
+        climb_data = self.interpolate_mass()
+
+        climb_data = climb_data['0']
+
         sorted_data = sorted(climb_data, key=lambda x: int(x['fl']))
         fls = [int(point['fl']) for point in sorted_data]
 
@@ -216,12 +224,83 @@ class AdvancedFuelCalculator:
             total_time += next_data['time'] - current_data['time']
             total_distance += next_data['distance'] - current_data['distance']
             total_fuel += next_data['fuel'] - current_data['fuel']
+            self.mass_kg = self.mass_kg - (next_data['fuel'] - current_data['fuel'])
+
 
         return {
             'total_time': round(total_time, 2),
             'total_distance': round(total_distance, 2),
             'total_fuel': round(total_fuel, 2)
         }
+
+    def interpolate_mass(self):
+
+        target_mass = self.mass_kg
+        aircraft_data = self.boeing_data_climb
+
+        masses = sorted(aircraft_data.keys(), key=lambda x: int(x))
+        target_mass_int = int(target_mass)
+
+        # Знаходимо найближчі маси для інтерполяції
+        lower_mass, upper_mass = None, None
+        for i, mass in enumerate(masses):
+            mass_int = int(mass)
+            if mass_int == target_mass_int:
+                return aircraft_data[mass]  # Якщо маса вже є у файлі
+            if mass_int < target_mass_int:
+                lower_mass = mass
+            elif mass_int > target_mass_int and not upper_mass:
+                upper_mass = mass
+                break
+
+        # Обробка випадків, коли target_mass за межами даних
+        if not lower_mass:
+            return aircraft_data[masses[0]]
+        if not upper_mass:
+            return aircraft_data[masses[-1]]
+
+        # Коефіцієнт для лінійної інтерполяції
+        lower_mass_int = int(lower_mass)
+        upper_mass_int = int(upper_mass)
+        ratio = (target_mass_int - lower_mass_int) / (upper_mass_int - lower_mass_int)
+
+        # Інтерполяція даних для кожної температури
+        interpolated = {}
+        for temp in aircraft_data[lower_mass]:
+            if temp not in aircraft_data[upper_mass]:
+                continue
+
+            # Збираємо спільні рівні польоту (FL)
+            lower_points = {p["fl"]: p for p in aircraft_data[lower_mass][temp]}
+            upper_points = {p["fl"]: p for p in aircraft_data[upper_mass][temp]}
+            common_fls = sorted(
+                set(lower_points.keys()) & set(upper_points.keys()),
+                key=lambda x: int(x)
+            )
+
+            # Інтерполяція параметрів для кожного FL
+            temp_data = []
+            for fl in common_fls:
+                lower = lower_points[fl]
+                upper = upper_points[fl]
+
+                temp_data.append({
+                    "fl": fl,
+                    "time": str(round(float(lower["time"]) + (
+                                float(upper["time"]) - float(lower["time"])) * ratio, 2)),
+                    "distance": str(round(float(lower["distance"]) + (
+                                float(upper["distance"]) - float(lower["distance"])) * ratio, 2)),
+                    "fuel": str(round(float(lower["fuel"]) + (
+                                float(upper["fuel"]) - float(lower["fuel"])) * ratio, 2)),
+                    "ias": lower["ias"],  # Беремо з нижчої маси (або можна інтерполювати)
+                    "tas": str(round(
+                        float(lower["tas"]) + (float(upper["tas"]) - float(lower["tas"])) * ratio,
+                        2))
+                })
+
+            interpolated[temp] = temp_data
+
+        return interpolated
 
 if __name__ == "__main__":
     root = tk.Tk()
