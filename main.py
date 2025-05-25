@@ -48,7 +48,7 @@ class AdvancedFuelCalculator:
     def create_widgets(self):
         # Створення фону
         try:
-            self.bg_image = Image.open('src/background.png')
+            self.bg_image = Image.open('src/background2.png')
             self.bg_image = self.bg_image.resize((800, 600), Image.LANCZOS)
             self.bg_photo = ImageTk.PhotoImage(self.bg_image)
             self.canvas = tk.Canvas(self.master, width=800, height=600)
@@ -56,11 +56,11 @@ class AdvancedFuelCalculator:
             self.canvas.create_image(0, 0, image=self.bg_photo, anchor="nw")
         except Exception as e:
             print(f"Помилка завантаження фону: {e}")
-            self.canvas = tk.Canvas(self.master, width=800, height=600, bg='white')
+            self.canvas = tk.Canvas(self.master, width=800, height=600, bg='')
             self.canvas.pack()
 
         # Основний фрейм для віджетів
-        self.widget_frame = tk.Frame(self.canvas, bd=5, relief='ridge', bg='#f0f0f0')
+        self.widget_frame = tk.Frame(self.canvas, bd=5, relief='ridge', bg='')
         self.widget_frame.place(relx=0.5, rely=0.5, anchor="center", width=500, height=400)
 
         # Елементи інтерфейсу
@@ -93,12 +93,26 @@ class AdvancedFuelCalculator:
         )
         self.custom_route_entry.pack(pady=5)
 
+        # Інші елементи...
+        self.mass_label = tk.Label(
+            self.widget_frame,
+            text="Вага літака в КГ",
+            bg='#f0f0f0'
+        )
+        self.mass_label.pack(pady=5)
+
+        self.mass_entry = tk.Entry(self.widget_frame, width=20)
+        self.mass_entry.pack(pady=5)
+        self.mass_entry.insert(0, '65000')
         self.calculate_button = tk.Button(
             self.widget_frame,
             text="Розрахувати",
             command=self._calculate_best_cost
         )
         self.calculate_button.pack(pady=20)
+
+        self.progress = ttk.Progressbar(self.widget_frame, orient="horizontal", length=250, mode="determinate")
+
 
         self.on_route_type_change()
 
@@ -125,9 +139,30 @@ class AdvancedFuelCalculator:
             messagebox.showerror("Помилка", "Маршрут не може бути порожнім")
             return False
 
+        mass = self.mass_entry.get().strip().upper()
+
+        # Спроба витягнути числове значення (ігноруємо "FL" якщо введено)
+        try:
+            fl_value = int(mass.replace("FL", ""))
+        except ValueError:
+            messagebox.showerror("Помилка", "Невірний формат ваги\nПриклад: 40000")
+            return False
+
+        # Діапазон FL (можна змінити за потребою)
+        if not (40000 <= fl_value <= 85000):
+            messagebox.showerror("Помилка", "Висота повинна бути між 40000 та 85000")
+            return False
+
         return True
 
-
+    def set_progress(self, value):
+        """
+        Оновлює значення прогрес бара
+        :param value: значення від 0 до 100
+        """
+        value = max(0, min(100, value))
+        self.progress["value"] = value
+        self.widget_frame.update_idletasks()
 
     def calculate_best_cost(self):
 
@@ -135,6 +170,7 @@ class AdvancedFuelCalculator:
             return
 
         route = self.custom_route_entry.get()
+        mass = int(self.mass_entry.get())
 
         distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
 
@@ -146,14 +182,20 @@ class AdvancedFuelCalculator:
 
         lowest_fuel_kg = 0
         better_height = 0
+        self.progress.pack(pady=20)
         for i in range(int(fl_test), 410):
-            self.mass_kg = 65000
+
+            self.set_progress(i/4)
+            self.mass_kg = mass
             result = self.calculate_cost(route, i, distance_km, altitude_fl_start, altitude_fl_end)
             if lowest_fuel_kg and result[2] < lowest_fuel_kg:
                 lowest_fuel_kg = result[2]
                 better_height = i
             else:
                 lowest_fuel_kg = result[2]
+
+        self.progress.pack_forget()
+
         print(lowest_fuel_kg, better_height)
 
 
