@@ -67,8 +67,8 @@ class AdvancedFuelCalculator:
         self.route_type_label = tk.Label(
             self.widget_frame,
             font=custom_font,
-            text="Маршрут:",
-            bg='#f0f0f0'
+            bg='white',
+            text="Маршрут:"
         )
         self.route_type_label.pack(pady=5)
 
@@ -84,7 +84,7 @@ class AdvancedFuelCalculator:
             self.widget_frame,
             font=custom_font,
             text="Ваш маршрут:",
-            bg='#f0f0f0'
+            bg='white'
         )
         self.custom_route_label.pack(pady=5)
 
@@ -100,7 +100,7 @@ class AdvancedFuelCalculator:
             self.widget_frame,
             font=custom_font,
             text="Вага літака в КГ",
-            bg='#f0f0f0'
+            bg='white'
         )
         self.mass_label.pack(pady=5)
 
@@ -117,9 +117,9 @@ class AdvancedFuelCalculator:
 
         self.progress = ttk.Progressbar(self.widget_frame, orient="horizontal", length=300, mode="determinate")
 
-        self.tree = ttk.Treeview(self.widget_frame, columns=("Вхідні дані", "Результат"), show="headings")
+        self.tree = ttk.Treeview(self.widget_frame, columns=("Вхідні дані", "Результати"), show="headings")
         self.tree.heading("Вхідні дані", text="Вхідні дані")
-        self.tree.heading("Результат", text="Результат")
+        self.tree.heading("Результати", text="Результати")
 
         self.on_route_type_change()
 
