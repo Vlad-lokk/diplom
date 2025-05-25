@@ -17,7 +17,7 @@ class AdvancedFuelCalculator:
 
         self.route_mapping = {
             "BARCELONA - GRANADA ARMILLA": "LEBL LOTOS TORDU DIKUT SOPET VLC SERRA ASTRO POBOS XEBAR YES MAMIS BAZAS VIBAS LEGA",
-            "Second": "Другий маршрут...",
+            "LA CORUNA - BARCELONA": "LECO ROXER MASIP VES AMAKA LASKU RONSI OBETO SNR CALCE BLV GRAUS LEBL",
             "Свій": ""
         }
 
@@ -58,7 +58,7 @@ class AdvancedFuelCalculator:
             print(f"Помилка завантаження фону: {e}")
             self.canvas = tk.Canvas(self.master, width=800, height=600, bg='')
             self.canvas.pack()
-
+        custom_font = ("Arial", 10, "bold")
         # Основний фрейм для віджетів
         self.widget_frame = tk.Frame(self.canvas, bd=5, relief='ridge', bg='')
         self.widget_frame.place(relx=0.5, rely=0.5, anchor="center", width=500, height=400)
@@ -66,6 +66,7 @@ class AdvancedFuelCalculator:
         # Елементи інтерфейсу
         self.route_type_label = tk.Label(
             self.widget_frame,
+            font=custom_font,
             text="Маршрут:",
             bg='#f0f0f0'
         )
@@ -81,6 +82,7 @@ class AdvancedFuelCalculator:
 
         self.custom_route_label = tk.Label(
             self.widget_frame,
+            font=custom_font,
             text="Ваш маршрут:",
             bg='#f0f0f0'
         )
@@ -88,7 +90,7 @@ class AdvancedFuelCalculator:
 
         self.custom_route_entry = tk.Entry(
             self.widget_frame,
-            width=40,
+            width=45,
             state="disabled"
         )
         self.custom_route_entry.pack(pady=5)
@@ -96,6 +98,7 @@ class AdvancedFuelCalculator:
         # Інші елементи...
         self.mass_label = tk.Label(
             self.widget_frame,
+            font=custom_font,
             text="Вага літака в КГ",
             bg='#f0f0f0'
         )
@@ -107,20 +110,24 @@ class AdvancedFuelCalculator:
         self.calculate_button = tk.Button(
             self.widget_frame,
             text="Розрахувати",
+            font=custom_font,
             command=self._calculate_best_cost
         )
-        self.calculate_button.pack(pady=20)
+        self.calculate_button.pack(pady=5)
 
-        self.progress = ttk.Progressbar(self.widget_frame, orient="horizontal", length=250, mode="determinate")
+        self.progress = ttk.Progressbar(self.widget_frame, orient="horizontal", length=300, mode="determinate")
 
+        self.tree = ttk.Treeview(self.widget_frame, columns=("Вхідні дані", "Результат"), show="headings")
+        self.tree.heading("Вхідні дані", text="Вхідні дані")
+        self.tree.heading("Результат", text="Результат")
 
         self.on_route_type_change()
 
     def _calculate_best_cost(self):
         try:
             self.calculate_best_cost()
-        except ValueError:
-            pass
+        except Exception as e:
+            messagebox.showerror("Помилка", f"Сталася помилка: {str(e)}")
 
     def open_files(self):
         with open('src/boeing-738-climb.json', 'r') as f:
@@ -164,8 +171,27 @@ class AdvancedFuelCalculator:
         self.progress["value"] = value
         self.widget_frame.update_idletasks()
 
-    def calculate_best_cost(self):
+    def show_results(self, altitude_fl_start, altitude_fl_end, mass, distance_km, better_height, lowest_fuel_kg, total_time):
+        # Приклад даних для виведення
+        data = [
+            [f"Початкова висота: {round(altitude_fl_start, 1)}FL", f"Оптимальна висота польоту: {round(better_height, 1)}FL"],
+            [f"Кінцева висота: {round(altitude_fl_end, 1)}FL", f"Дистанція: {round(distance_km, 1)}км"],
+            [f"Початкова маса літака: {mass}кг", f"Використано палива: {round(lowest_fuel_kg, 1)}кг"],
+            [f"", f"Кінцева маса літака: {round(self.mass_kg, 1)}кг"],
+            [f"", f"Час рейсу: {round(total_time, 1)}хв"],
+        ]
 
+        # Очистити таблицю (якщо вже були дані)
+        for row in self.tree.get_children():
+            self.tree.delete(row)
+
+        # Додати нові дані
+        for row in data:
+            self.tree.insert("", "end", values=row)
+
+    def calculate_best_cost(self):
+        self.tree.pack_forget()
+        self.tree.place(x=1000, y=0)
         if not self.validate_inputs():
             return
 
@@ -174,27 +200,30 @@ class AdvancedFuelCalculator:
 
         distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
 
-
-        if altitude_fl_start > altitude_fl_end:
-            fl_test = altitude_fl_start
-        else:
-            fl_test = altitude_fl_end
+        fl_test = max(altitude_fl_start, altitude_fl_end)
 
         lowest_fuel_kg = 0
         better_height = 0
-        self.progress.pack(pady=20)
-        for i in range(int(fl_test), 410):
-
-            self.set_progress(i/4)
-            self.mass_kg = mass
-            result = self.calculate_cost(route, i, distance_km, altitude_fl_start, altitude_fl_end)
-            if lowest_fuel_kg and result[2] < lowest_fuel_kg:
-                lowest_fuel_kg = result[2]
-                better_height = i
-            else:
-                lowest_fuel_kg = result[2]
-
-        self.progress.pack_forget()
+        total_time = 0
+        self.progress.pack()
+        self.widget_frame.update_idletasks()
+        try:
+            for i in range(int(fl_test), 410):
+                self.set_progress(i/4)
+                self.mass_kg = mass
+                result = self.calculate_cost(route, i, distance_km, altitude_fl_start, altitude_fl_end)
+                if lowest_fuel_kg and result[2] < lowest_fuel_kg:
+                    lowest_fuel_kg = result[2]
+                    better_height = i
+                    total_time = result[0]
+                else:
+                    lowest_fuel_kg = result[2]
+        except Exception as e:
+            messagebox.showerror("Помилка", f"Сталася помилка: {str(e)}")
+        finally:
+            self.tree.pack(padx=20, expand=True)
+            self.widget_frame.update_idletasks()
+            self.show_results(altitude_fl_start, altitude_fl_end, mass, distance_km, better_height, lowest_fuel_kg, total_time)
 
         print(lowest_fuel_kg, better_height)
 
