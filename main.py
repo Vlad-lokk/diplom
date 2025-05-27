@@ -104,6 +104,21 @@ class AdvancedFuelCalculator:
         )
         self.mass_label.pack(pady=5)
 
+        self.isa_label = tk.Label(
+            self.widget_frame,
+            font=custom_font,
+            text="ISA Deviation",
+            bg='white'
+        )
+        self.isa_label.pack(pady=5)
+        self.isa_select = ttk.Combobox(
+            self.widget_frame,
+            width=40,
+            values=[-30,-25,-20,-15,-10,-5,0,5,10,15,25,30]
+        )
+        self.isa_select.pack(pady=5)
+        self.isa_select.set(0)
+
         self.mass_entry = tk.Entry(self.widget_frame, width=20)
         self.mass_entry.pack(pady=5)
         self.mass_entry.insert(0, '65000')
@@ -269,7 +284,8 @@ class AdvancedFuelCalculator:
 
             # 1. Інтерполяція даних для поточної маси
             interpolated_data = self.interpolate_mass(self.boeing_data_cruise)
-            fl_data = interpolated_data.get('0', [])  # Беремо дані для ISA+0
+
+            fl_data = self.interpolate_isa(interpolated_data, self.isa_select.get())
 
             # 2. Знаходимо найближчі FL для інтерполяції
             fl_values = sorted([int(item['fl']) for item in fl_data], key=lambda x: x)
@@ -323,7 +339,7 @@ class AdvancedFuelCalculator:
 
         descent_data = self.interpolate_mass(self.boeing_data_descent)
 
-        descent_data = descent_data['0']
+        descent_data = self.interpolate_isa(descent_data, self.isa_select.get())
 
         # Сортуємо точки за зворотнім порядком FL (від більших до менших)
         sorted_data = sorted(descent_data, key=lambda x: int(x['fl']))
@@ -380,7 +396,7 @@ class AdvancedFuelCalculator:
         # Знаходимо всі FL з файлу в діапазоні [fl_start, fl_end]
         descent_data = self.interpolate_mass(self.boeing_data_descent)
 
-        descent_data = descent_data['0']
+        descent_data = self.interpolate_isa(descent_data, self.isa_select.get())
 
         sorted_fls = sorted([int(p['fl']) for p in descent_data], reverse=True)
         relevant_fls = [fl for fl in sorted_fls if fl_end <= fl <= fl_start]
@@ -414,7 +430,7 @@ class AdvancedFuelCalculator:
 
         climb_data = self.interpolate_mass(self.boeing_data_climb)
 
-        climb_data = climb_data['0']
+        climb_data = self.interpolate_isa(climb_data, self.isa_select.get())
 
         sorted_data = sorted(climb_data, key=lambda x: int(x['fl']))
         fls = [int(point['fl']) for point in sorted_data]
@@ -469,7 +485,7 @@ class AdvancedFuelCalculator:
 
         climb_data = self.interpolate_mass(self.boeing_data_climb)
 
-        climb_data = climb_data['0']
+        climb_data = self.interpolate_isa(climb_data, self.isa_select.get())
 
         sorted_data = sorted(climb_data, key=lambda x: int(x['fl']))
         fls = [int(point['fl']) for point in sorted_data]
@@ -575,6 +591,79 @@ class AdvancedFuelCalculator:
                 })
 
             interpolated[temp] = temp_data
+
+        return interpolated
+
+    def interpolate_isa(self, data, target_isa):
+        """
+        Лінійна інтерполяція даних за значенням ISA.
+        :param data: Словник з даними, де ключі верхнього рівня — значення ISA (наприклад, '0', '10').
+        :param target_isa: Цільове значення ISA для інтерполяції.
+        :return: Інтерпольовані дані для заданого ISA.
+        """
+        # Конвертуємо ключі ISA в int для коректного сортування
+        isa_keys = sorted(data.keys(), key=lambda x: int(x))
+        target_isa_int = int(target_isa)
+
+        # Якщо значення ISA вже є в даних, повертаємо його
+        if str(target_isa) in isa_keys:
+            return data[str(target_isa)]
+
+        # Знаходимо найближчі значення ISA
+        lower_isa, upper_isa = None, None
+        for isa in isa_keys:
+            isa_int = int(isa)
+            if isa_int <= target_isa_int:
+                lower_isa = isa
+            elif isa_int > target_isa_int and upper_isa is None:
+                upper_isa = isa
+                break
+
+        # Обробка крайніх випадків
+        if not lower_isa:
+            return data[isa_keys[0]]
+        if not upper_isa:
+            return data[isa_keys[-1]]
+
+        # Коефіцієнт інтерполяції
+        lower_isa_int = int(lower_isa)
+        upper_isa_int = int(upper_isa)
+        ratio = (target_isa_int - lower_isa_int) / (upper_isa_int - lower_isa_int)
+
+        # Інтерполяція параметрів для кожного FL
+        interpolated = []
+        lower_data = data[lower_isa]
+        upper_data = data[upper_isa]
+
+        # Збираємо спільні FL
+        lower_fls = {entry['fl']: entry for entry in lower_data}
+        upper_fls = {entry['fl']: entry for entry in upper_data}
+        common_fls = sorted(
+            set(lower_fls.keys()) & set(upper_fls.keys()),
+            key=lambda x: int(x)
+        )
+
+        for fl in common_fls:
+            lower_entry = lower_fls[fl]
+            upper_entry = upper_fls[fl]
+            interpolated_entry = {'fl': fl}
+
+            # Інтерполяція кожного параметра
+            for key in lower_entry:
+                if key == 'fl':
+                    continue
+                if key in upper_entry:
+                    try:
+                        lower_val = float(lower_entry[key])
+                        upper_val = float(upper_entry[key])
+                        interpolated_val = lower_val + (upper_val - lower_val) * ratio
+                        interpolated_entry[key] = round(interpolated_val, 2)
+                    except (ValueError, TypeError):
+                        interpolated_entry[key] = lower_entry[key]
+                else:
+                    interpolated_entry[key] = lower_entry.get(key, 0)
+
+            interpolated.append(interpolated_entry)
 
         return interpolated
 
