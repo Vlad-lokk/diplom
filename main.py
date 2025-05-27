@@ -1,10 +1,8 @@
 import json
 import tkinter as tk
 from tkinter import ttk, messagebox
-from scipy.interpolate import RegularGridInterpolator
 from PIL import Image, ImageTk
 
-from bin.prog_mass import interpolate_by_mass
 from calculate_route_profile import calculate_route_segments
 
 
@@ -95,33 +93,40 @@ class AdvancedFuelCalculator:
         )
         self.custom_route_entry.pack(pady=5)
 
+        self.top_row_frame = tk.Frame(self.widget_frame, bg='')
+        self.top_row_frame.pack(pady=5)
+        self.bottom_row_frame = tk.Frame(self.widget_frame, bg='')
+        self.bottom_row_frame.pack(pady=5)
+
         # Інші елементи...
         self.mass_label = tk.Label(
-            self.widget_frame,
+            self.top_row_frame,
             font=custom_font,
             text="Вага літака в КГ",
             bg='white'
         )
-        self.mass_label.pack(pady=5)
+        self.mass_label.pack(side='left', padx=30)
 
         self.isa_label = tk.Label(
-            self.widget_frame,
+            self.top_row_frame,
             font=custom_font,
             text="ISA Deviation",
             bg='white'
         )
-        self.isa_label.pack(pady=5)
+
+        self.mass_entry = tk.Entry(self.bottom_row_frame, width=10)
+        self.mass_entry.pack(padx=55, side='left')
+        self.mass_entry.insert(0, '65000')
+
+        self.isa_label.pack(padx=30)
         self.isa_select = ttk.Combobox(
-            self.widget_frame,
-            width=40,
+            self.bottom_row_frame,
+            width=10,
             values=[-30,-25,-20,-15,-10,-5,0,5,10,15,25,30]
         )
-        self.isa_select.pack(pady=5)
+        self.isa_select.pack(padx=40, side='left')
         self.isa_select.set(0)
 
-        self.mass_entry = tk.Entry(self.widget_frame, width=20)
-        self.mass_entry.pack(pady=5)
-        self.mass_entry.insert(0, '65000')
         self.calculate_button = tk.Button(
             self.widget_frame,
             text="Розрахувати",
