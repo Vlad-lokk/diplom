@@ -180,6 +180,10 @@ class AdvancedFuelCalculator:
             messagebox.showerror("Помилка", "Маса повинна бути між 40000 та 85000")
             return False
 
+        if not (-30 <= int(self.isa_select.get()) <= 30):
+            messagebox.showerror("Помилка", "ISA deviation може бути між -30 та 30")
+            return False
+
         return True
 
     def set_progress(self, value):
