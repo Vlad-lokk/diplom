@@ -51,14 +51,14 @@ def calculate_route_segments(route_points):
 
     for i in range(len(points) - 1):
         ident1, lat1, lon1, alt1 = points[i]
-        ident2, lat2, lon2, alt2 = points[i+1]
+        ident2, lat2, lon2, alt2 = points[i + 1]
         # Конвертація координат з градусів в радіани
         phi1 = math.radians(lat1)
         phi2 = math.radians(lat2)
         dphi = math.radians(lat2 - lat1)
         dlambda = math.radians(lon2 - lon1)
         # Обчислюємо гаверсинус
-        a = math.sin(dphi/2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda/2)**2
+        a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
         c = 2 * math.asin(math.sqrt(a))
         earth_radius_km = 6371.0  # Радіус Землі в км
         distance = earth_radius_km * c
@@ -70,4 +70,3 @@ def calculate_route_segments(route_points):
         distance_km += distance
 
     return distance_km, altitude_fl_start, altitude_fl_end
-

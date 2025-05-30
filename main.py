@@ -23,7 +23,6 @@ class AdvancedFuelCalculator:
         self.setup_bindings()
         self.open_files()
 
-
     def setup_bindings(self):
         # Прив'язка обробника подій тільки до Combobox
         self.route_type.bind("<<ComboboxSelected>>", self.on_route_type_change)
@@ -122,7 +121,7 @@ class AdvancedFuelCalculator:
         self.isa_select = ttk.Combobox(
             self.bottom_row_frame,
             width=10,
-            values=[-30,-25,-20,-15,-10,-5,0,5,10,15,25,30]
+            values=[-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 25, 30]
         )
         self.isa_select.pack(padx=40, side='left')
         self.isa_select.set(0)
@@ -135,9 +134,11 @@ class AdvancedFuelCalculator:
         )
         self.calculate_button.pack(pady=5)
 
-        self.progress = ttk.Progressbar(self.widget_frame, orient="horizontal", length=300, mode="determinate")
+        self.progress = ttk.Progressbar(self.widget_frame, orient="horizontal", length=300,
+                                        mode="determinate")
 
-        self.tree = ttk.Treeview(self.widget_frame, columns=("Вхідні дані", "Результати"), show="headings")
+        self.tree = ttk.Treeview(self.widget_frame, columns=("Вхідні дані", "Результати"),
+                                 show="headings")
         self.tree.heading("Вхідні дані", text="Вхідні дані")
         self.tree.heading("Результати", text="Результати")
 
@@ -195,12 +196,16 @@ class AdvancedFuelCalculator:
         self.progress["value"] = value
         self.widget_frame.update_idletasks()
 
-    def show_results(self, altitude_fl_start, altitude_fl_end, mass, distance_km, better_height, lowest_fuel_kg, total_time):
+    def show_results(self, altitude_fl_start, altitude_fl_end, mass, distance_km, better_height,
+                     lowest_fuel_kg, total_time):
         # Приклад даних для виведення
         data = [
-            [f"Початкова висота: {round(altitude_fl_start, 1)}FL", f"Оптимальна висота польоту: {round(better_height, 1)}FL"],
-            [f"Кінцева висота: {round(altitude_fl_end, 1)}FL", f"Дистанція: {round(distance_km, 1)}км"],
-            [f"Початкова маса літака: {mass}кг", f"Використано палива: {round(lowest_fuel_kg, 1)}кг"],
+            [f"Початкова висота: {round(altitude_fl_start, 1)}FL",
+             f"Оптимальна висота польоту: {round(better_height, 1)}FL"],
+            [f"Кінцева висота: {round(altitude_fl_end, 1)}FL",
+             f"Дистанція: {round(distance_km, 1)}км"],
+            [f"Початкова маса літака: {mass}кг",
+             f"Використано палива: {round(lowest_fuel_kg, 1)}кг"],
             [f"", f"Кінцева маса літака: {round(self.mass_kg, 1)}кг"],
             [f"", f"Час рейсу: {round(total_time, 1)}хв"],
         ]
@@ -233,9 +238,10 @@ class AdvancedFuelCalculator:
         self.widget_frame.update_idletasks()
         try:
             for i in range(int(fl_test), 410):
-                self.set_progress(i/4)
+                self.set_progress(i / 4)
                 self.mass_kg = mass
-                result = self.calculate_cost(route, i, distance_km, altitude_fl_start, altitude_fl_end)
+                result = self.calculate_cost(route, i, distance_km, altitude_fl_start,
+                                             altitude_fl_end)
                 if lowest_fuel_kg and result[2] < lowest_fuel_kg:
                     lowest_fuel_kg = result[2]
                     better_height = i
@@ -247,10 +253,10 @@ class AdvancedFuelCalculator:
         finally:
             self.tree.pack(padx=20, expand=True)
             self.widget_frame.update_idletasks()
-            self.show_results(altitude_fl_start, altitude_fl_end, mass, distance_km, better_height, lowest_fuel_kg, total_time)
+            self.show_results(altitude_fl_start, altitude_fl_end, mass, distance_km, better_height,
+                              lowest_fuel_kg, total_time)
 
         print(lowest_fuel_kg, better_height)
-
 
     def calculate_cost(self, route, height_fl, distance_km, altitude_fl_start, altitude_fl_end):
 
@@ -272,12 +278,11 @@ class AdvancedFuelCalculator:
                                                     calculate_mass=True)
         print(descent_info, self.mass_kg)
 
-
-
-        total_info = (climb_info['total_time'] + cruise_info['total_time'] + descent_info['total_time'],
-              climb_info['total_distance'] + cruise_info['total_distance'] + descent_info[
-                  'total_distance'],
-              climb_info['total_fuel'] + cruise_info['total_fuel'] + descent_info['total_fuel'])
+        total_info = (
+        climb_info['total_time'] + cruise_info['total_time'] + descent_info['total_time'],
+        climb_info['total_distance'] + cruise_info['total_distance'] + descent_info[
+            'total_distance'],
+        climb_info['total_fuel'] + cruise_info['total_fuel'] + descent_info['total_fuel'])
         print(total_info)
         return total_info
 
@@ -320,9 +325,9 @@ class AdvancedFuelCalculator:
             else:
                 ratio = (flight_level - lower_fl) / (upper_fl - lower_fl)
                 tas = float(lower_entry['tas']) + (
-                            float(upper_entry['tas']) - float(lower_entry['tas'])) * ratio
+                        float(upper_entry['tas']) - float(lower_entry['tas'])) * ratio
                 fuel_flow = float(lower_entry['fuel']) + (
-                            float(upper_entry['fuel']) - float(lower_entry['fuel'])) * ratio
+                        float(upper_entry['fuel']) - float(lower_entry['fuel'])) * ratio
 
             # 4. Розрахунок часу та палива для сегмента
             time_segment = segment / tas  # Час у годинах
@@ -340,11 +345,8 @@ class AdvancedFuelCalculator:
             'total_fuel': round(total_fuel, 2)
         }
 
-
-
     def calculate_descent(self, fl_target):
         # Використовуємо дані для спуску
-
 
         descent_data = self.interpolate_mass(self.boeing_data_descent)
 
@@ -478,11 +480,11 @@ class AdvancedFuelCalculator:
 
             # Інтерполяція значень
             time = float(lower_point['time']) + (
-                        float(upper_point['time']) - float(lower_point['time'])) * ratio
+                    float(upper_point['time']) - float(lower_point['time'])) * ratio
             distance = float(lower_point['distance']) + (
-                        float(upper_point['distance']) - float(lower_point['distance'])) * ratio
+                    float(upper_point['distance']) - float(lower_point['distance'])) * ratio
             fuel = float(lower_point['fuel']) + (
-                        float(upper_point['fuel']) - float(lower_point['fuel'])) * ratio
+                    float(upper_point['fuel']) - float(lower_point['fuel'])) * ratio
 
             return {
                 'time': round(time, 2),
@@ -527,7 +529,6 @@ class AdvancedFuelCalculator:
             total_distance += next_data['distance'] - current_data['distance']
             total_fuel += next_data['fuel'] - current_data['fuel']
             self.mass_kg = self.mass_kg - (next_data['fuel'] - current_data['fuel'])
-
 
         return {
             'total_time': round(total_time, 2),
@@ -588,11 +589,13 @@ class AdvancedFuelCalculator:
                 temp_data.append({
                     "fl": fl,
                     "time": str(round(float(lower["time"]) + (
-                                float(upper["time"]) - float(lower["time"])) * ratio, 2)) if "time" in lower and "time" in upper else 0,
+                            float(upper["time"]) - float(lower["time"])) * ratio,
+                                      2)) if "time" in lower and "time" in upper else 0,
                     "distance": str(round(float(lower["distance"]) + (
-                                float(upper["distance"]) - float(lower["distance"])) * ratio, 2)) if "distance" in upper and "distance" in lower else 0,
+                            float(upper["distance"]) - float(lower["distance"])) * ratio,
+                                          2)) if "distance" in upper and "distance" in lower else 0,
                     "fuel": str(round(float(lower["fuel"]) + (
-                                float(upper["fuel"]) - float(lower["fuel"])) * ratio, 2)),
+                            float(upper["fuel"]) - float(lower["fuel"])) * ratio, 2)),
                     "ias": lower["ias"] if "ias" in lower else 0,
                     "tas": str(round(
                         float(lower["tas"]) + (float(upper["tas"]) - float(lower["tas"])) * ratio,
@@ -675,6 +678,7 @@ class AdvancedFuelCalculator:
             interpolated.append(interpolated_entry)
 
         return interpolated
+
 
 if __name__ == "__main__":
     root = tk.Tk()
