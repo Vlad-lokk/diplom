@@ -24,26 +24,21 @@ class AdvancedFuelCalculator:
         self.open_files()
 
     def setup_bindings(self):
-        # Прив'язка обробника подій тільки до Combobox
         self.route_type.bind("<<ComboboxSelected>>", self.on_route_type_change)
 
     def on_route_type_change(self, event=None):
-        """Обробник зміни вибору в Combobox"""
         selected = self.route_type.get()
 
-        # Завжди активуємо поле перед змінами
         self.custom_route_entry.config(state='normal')
         self.custom_route_entry.delete(0, tk.END)
 
         if selected == "Свій":
             self.custom_route_entry.config(state='normal')
         else:
-            # Вставляємо відповідний маршрут зі словника
             self.custom_route_entry.insert(0, self.route_mapping[selected])
             self.custom_route_entry.config(state='disabled')
 
     def create_widgets(self):
-        # Створення фону
         try:
             self.bg_image = Image.open('src/background2.png')
             self.bg_image = self.bg_image.resize((800, 600), Image.LANCZOS)
@@ -56,11 +51,9 @@ class AdvancedFuelCalculator:
             self.canvas = tk.Canvas(self.master, width=800, height=600, bg='')
             self.canvas.pack()
         custom_font = ("Arial", 10, "bold")
-        # Основний фрейм для віджетів
         self.widget_frame = tk.Frame(self.canvas, bd=5, relief='ridge', bg='')
         self.widget_frame.place(relx=0.5, rely=0.5, anchor="center", width=500, height=400)
 
-        # Елементи інтерфейсу
         self.route_type_label = tk.Label(
             self.widget_frame,
             font=custom_font,
@@ -97,7 +90,6 @@ class AdvancedFuelCalculator:
         self.bottom_row_frame = tk.Frame(self.widget_frame, bg='')
         self.bottom_row_frame.pack(pady=5)
 
-        # Інші елементи...
         self.mass_label = tk.Label(
             self.top_row_frame,
             font=custom_font,
@@ -198,7 +190,6 @@ class AdvancedFuelCalculator:
 
     def show_results(self, altitude_fl_start, altitude_fl_end, mass, distance_km, better_height,
                      lowest_fuel_kg, total_time):
-        # Приклад даних для виведення
         data = [
             [f"Початкова висота: {round(altitude_fl_start, 1)}FL",
              f"Оптимальна висота польоту: {round(better_height, 1)}FL"],
@@ -210,7 +201,7 @@ class AdvancedFuelCalculator:
             [f"", f"Час рейсу: {round(total_time, 1)}хв"],
         ]
 
-        # Очистити таблицю (якщо вже були дані)
+        # Очистити таблицю
         for row in self.tree.get_children():
             self.tree.delete(row)
 
@@ -352,11 +343,9 @@ class AdvancedFuelCalculator:
 
         descent_data = self.interpolate_isa(descent_data, self.isa_select.get())
 
-        # Сортуємо точки за зворотнім порядком FL (від більших до менших)
         sorted_data = sorted(descent_data, key=lambda x: int(x['fl']))
         fls = [int(point['fl']) for point in sorted_data]
 
-        # Обробка випадків за межами даних
         if fl_target >= fls[0]:  # Найвищий доступний FL у даних спуску
             return {
                 'time': float(sorted_data[0]['time']),

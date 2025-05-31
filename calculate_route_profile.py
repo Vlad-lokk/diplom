@@ -41,10 +41,8 @@ def calculate_route_segments(route_points):
             alt = 0
             points.append((ident, lat, lon, alt))
         else:
-            # Точка не знайдена в жодному із файлів
             raise ValueError(f"Точка {ident} не знайдена у файлах даних")
 
-    # Обчислюємо відстані та різниці висот між послідовними точками маршруту
     distance_km = 0
     altitude_fl_start = 0
     altitude_fl_end = 0
