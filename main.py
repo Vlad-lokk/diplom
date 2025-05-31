@@ -1,6 +1,8 @@
 import json
 import tkinter as tk
 import numpy as np
+import sys
+import os
 
 from tkinter import ttk, messagebox, PhotoImage
 from PIL import Image, ImageTk
@@ -9,6 +11,14 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from calculate_route_profile import calculate_route_segments
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class AdvancedFuelCalculator:
     def __init__(self, master):
@@ -47,7 +57,7 @@ class AdvancedFuelCalculator:
 
     def create_widgets(self):
         try:
-            self.bg_image = Image.open('src/background.png')
+            self.bg_image = Image.open(resource_path('src/background.png'))
             self.bg_image = self.bg_image.resize((800, 600), Image.LANCZOS)
             self.bg_photo = ImageTk.PhotoImage(self.bg_image)
             self.canvas = tk.Canvas(self.master, width=800, height=600)
@@ -136,7 +146,7 @@ class AdvancedFuelCalculator:
         )
         self.calculate_button.pack(pady=3, side='left')
 
-        icon_image = Image.open("src/icon.png")
+        icon_image = Image.open(resource_path("src/icon.png"))
         icon_image = icon_image.resize((22, 22), Image.LANCZOS)
         icon_photo = ImageTk.PhotoImage(icon_image)
 
@@ -167,13 +177,13 @@ class AdvancedFuelCalculator:
             messagebox.showerror("Помилка", f"Сталася помилка: {str(e)}")
 
     def open_files(self):
-        with open('src/boeing-738-climb.json', 'r') as f:
+        with open(resource_path('src/boeing-738-climb.json'), 'r') as f:
             self.boeing_data_climb = json.load(f)
 
-        with open('src/boeing-738-cruise.json', 'r') as f:
+        with open(resource_path('src/boeing-738-cruise.json'), 'r') as f:
             self.boeing_data_cruise = json.load(f)
 
-        with open('src/boeing-738-descent.json', 'r') as f:
+        with open(resource_path('src/boeing-738-descent.json'), 'r') as f:
             self.boeing_data_descent = json.load(f)
 
     def validate_inputs(self):

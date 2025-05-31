@@ -1,6 +1,17 @@
 import json
 import math
 import requests
+import sys
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 def calculate_route_segments(route_points):
@@ -11,9 +22,9 @@ def calculate_route_segments(route_points):
     про кожен відрізок маршруту.
     """
     # Завантажуємо дані аеропортів та вершин
-    with open('src/airports_esp.json', 'r', encoding='utf-8') as f:
+    with open(resource_path('src/airports_esp.json'), 'r', encoding='utf-8') as f:
         airports_data = json.load(f)
-    with open('src/vertices_esp.json', 'r', encoding='utf-8') as f:
+    with open(resource_path('src/vertices_esp.json'), 'r', encoding='utf-8') as f:
         vertices_data = json.load(f)
 
     route_points = route_points.split()
