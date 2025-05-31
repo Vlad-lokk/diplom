@@ -1,13 +1,21 @@
 import json
 import tkinter as tk
+import numpy as np
+from scipy.interpolate import make_interp_spline
+
 from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from calculate_route_profile import calculate_route_segments
 
 
 class AdvancedFuelCalculator:
     def __init__(self, master):
+        self.heights = []
+        self.fuels = []
+        self.times = []
         self.master = master
         master.title("Розрахунок витрат палива Boeing 738")
         master.geometry("800x600")
@@ -40,7 +48,7 @@ class AdvancedFuelCalculator:
 
     def create_widgets(self):
         try:
-            self.bg_image = Image.open('src/background2.png')
+            self.bg_image = Image.open('src/background.png')
             self.bg_image = self.bg_image.resize((800, 600), Image.LANCZOS)
             self.bg_photo = ImageTk.PhotoImage(self.bg_image)
             self.canvas = tk.Canvas(self.master, width=800, height=600)
@@ -134,6 +142,15 @@ class AdvancedFuelCalculator:
         self.tree.heading("Вхідні дані", text="Вхідні дані")
         self.tree.heading("Результати", text="Результати")
 
+        self.graph_button = tk.Button(
+            self.widget_frame,
+            text="Показати графіки",
+            font=custom_font,
+            command=self.show_graphs,
+            # state='disabled'
+        )
+        self.graph_button.pack(pady=10)
+
         self.on_route_type_change()
 
     def _calculate_best_cost(self):
@@ -149,7 +166,7 @@ class AdvancedFuelCalculator:
         with open('src/boeing-738-cruise.json', 'r') as f:
             self.boeing_data_cruise = json.load(f)
 
-        with open('src/boeing-738-descent-modified.json', 'r') as f:
+        with open('src/boeing-738-descent.json', 'r') as f:
             self.boeing_data_descent = json.load(f)
 
     def validate_inputs(self):
@@ -215,6 +232,11 @@ class AdvancedFuelCalculator:
         if not self.validate_inputs():
             return
 
+        # Ініціалізація змінних для графіків
+        self.heights = []
+        self.fuels = []
+        self.times = []
+
         route = self.custom_route_entry.get()
         mass = int(self.mass_entry.get())
 
@@ -233,6 +255,10 @@ class AdvancedFuelCalculator:
                 self.mass_kg = mass
                 result = self.calculate_cost(route, i, distance_km, altitude_fl_start,
                                              altitude_fl_end)
+                self.heights.append(i)
+                self.fuels.append(result[2])
+                self.times.append(result[0])
+
                 if lowest_fuel_kg and result[2] < lowest_fuel_kg:
                     lowest_fuel_kg = result[2]
                     better_height = i
@@ -270,10 +296,10 @@ class AdvancedFuelCalculator:
         print(descent_info, self.mass_kg)
 
         total_info = (
-        climb_info['total_time'] + cruise_info['total_time'] + descent_info['total_time'],
-        climb_info['total_distance'] + cruise_info['total_distance'] + descent_info[
-            'total_distance'],
-        climb_info['total_fuel'] + cruise_info['total_fuel'] + descent_info['total_fuel'])
+            climb_info['total_time'] + cruise_info['total_time'] + descent_info['total_time'],
+            climb_info['total_distance'] + cruise_info['total_distance'] + descent_info[
+                'total_distance'],
+            climb_info['total_fuel'] + cruise_info['total_fuel'] + descent_info['total_fuel'])
         print(total_info)
         return total_info
 
@@ -667,6 +693,77 @@ class AdvancedFuelCalculator:
             interpolated.append(interpolated_entry)
 
         return interpolated
+
+    def show_graphs(self):
+        if not hasattr(self, 'heights') or not self.heights:
+            messagebox.showinfo("Інформація", "Спочатку виконайте розрахунок.")
+            return
+
+        # Створюємо нове вікно меншого розміру
+        graph_window = tk.Toplevel(self.master)
+        graph_window.title("Графіки польоту")
+        graph_window.geometry("600x600")  # Зменшений розмір вікна
+
+        # Створюємо фігуру з двома графіками
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7, 6))
+
+        # Додаємо згладжування ліній за допомогою інтерполяції
+        from scipy.interpolate import make_interp_spline
+        import numpy as np
+
+        # Перетворюємо дані в numpy масиви для обробки
+        heights_arr = np.array(self.heights)
+        fuels_arr = np.array(self.fuels)
+        times_arr = np.array(self.times)
+
+        # Створюємо більше точок для згладжених кривих
+        heights_smooth = np.linspace(heights_arr.min(), heights_arr.max(), 300)
+
+        # Створюємо згладжені криві
+        if len(heights_arr) > 3:  # Переконуємося, що точок достатньо для згладжування
+            fuel_spline = make_interp_spline(heights_arr, fuels_arr, k=3)
+            fuels_smooth = fuel_spline(heights_smooth)
+
+            time_spline = make_interp_spline(heights_arr, times_arr, k=3)
+            times_smooth = time_spline(heights_smooth)
+        else:
+            fuels_smooth = fuels_arr
+            times_smooth = times_arr
+            heights_smooth = heights_arr
+
+        # Графік витрати палива за висотою
+        ax1.plot(heights_smooth, fuels_smooth, 'b-', linewidth=2, label='Згладжена крива')
+        ax1.plot(self.heights, self.fuels, 'ro', markersize=4, label='Розраховані точки')
+        ax1.set_title('Залежність витрати палива від висоти польоту')
+        ax1.set_xlabel('Висота (FL)')
+        ax1.set_ylabel('Витрата палива (кг)')
+        ax1.grid(True, linestyle='--', alpha=0.7)
+        ax1.legend()
+
+        # Графік часу польоту за висотою
+        ax2.plot(heights_smooth, times_smooth, 'g-', linewidth=2, label='Згладжена крива')
+        ax2.plot(self.heights, self.times, 'ro', markersize=4, label='Розраховані точки')
+        ax2.set_title('Залежність часу польоту від висоти')
+        ax2.set_xlabel('Висота (FL)')
+        ax2.set_ylabel('Час польоту (хв)')
+        ax2.grid(True, linestyle='--', alpha=0.7)
+        ax2.legend()
+
+        plt.tight_layout(pad=3.0)  # Додаємо трохи простору між графіками
+
+        # Вбудовуємо графік у Tkinter
+        canvas = FigureCanvasTkAgg(fig, master=graph_window)
+        canvas.draw()
+        canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+        # Кнопка закриття
+        btn_close = tk.Button(
+            graph_window,
+            text="Закрити",
+            command=graph_window.destroy,
+            width=15
+        )
+        btn_close.pack(pady=10)
 
 
 if __name__ == "__main__":
