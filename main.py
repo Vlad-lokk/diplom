@@ -136,7 +136,6 @@ class AdvancedFuelCalculator:
         )
         self.calculate_button.pack(pady=3, side='left')
 
-
         icon_image = Image.open("src/icon.png")
         icon_image = icon_image.resize((22, 22), Image.LANCZOS)
         icon_photo = ImageTk.PhotoImage(icon_image)
