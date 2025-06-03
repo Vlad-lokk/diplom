@@ -64,7 +64,7 @@ class AdvancedFuelCalculator:
             self.canvas.pack(fill="both", expand=True)
             self.canvas.create_image(0, 0, image=self.bg_photo, anchor="nw")
         except Exception as e:
-            print(f"Помилка завантаження фону: {e}")
+            #print(f"Помилка завантаження фону: {e}")
             self.canvas = tk.Canvas(self.master, width=800, height=600, bg='')
             self.canvas.pack()
         custom_font = ("Arial", 10, "bold")
@@ -259,7 +259,7 @@ class AdvancedFuelCalculator:
 
         distance_km, altitude_fl_start, altitude_fl_end = calculate_route_segments(route)
 
-        fl_test = max(altitude_fl_start, altitude_fl_end)
+        fl_test = max(altitude_fl_start, altitude_fl_end, 200)
 
         lowest_fuel_kg = 0
         better_height = 0
@@ -276,12 +276,11 @@ class AdvancedFuelCalculator:
                 self.fuels.append(result[2])
                 self.times.append(result[0])
 
-                if lowest_fuel_kg and result[2] < lowest_fuel_kg:
+                if lowest_fuel_kg == 0 or result[2] < lowest_fuel_kg:
                     lowest_fuel_kg = result[2]
                     better_height = i
+                    print(better_height, lowest_fuel_kg, result[2] )
                     total_time = result[0]
-                else:
-                    lowest_fuel_kg = result[2]
         except Exception as e:
             messagebox.showerror("Помилка", f"Сталася помилка: {str(e)}")
         finally:
@@ -290,14 +289,14 @@ class AdvancedFuelCalculator:
             self.show_results(altitude_fl_start, altitude_fl_end, mass, distance_km, better_height,
                               lowest_fuel_kg, total_time)
 
-        print(lowest_fuel_kg, better_height)
+        #print(lowest_fuel_kg, better_height)
 
     def calculate_cost(self, route, height_fl, distance_km, altitude_fl_start, altitude_fl_end):
 
-        print(height_fl, distance_km, self.mass_kg)
+        #print(height_fl, distance_km, self.mass_kg)
 
         climb_info = self.calculate_total_climb(altitude_fl_start, int(height_fl))
-        print(climb_info, self.mass_kg)
+        #print(climb_info, self.mass_kg)
         first_descent_info = self.calculate_total_descent(int(height_fl), altitude_fl_end,
                                                           calculate_mass=False)
 
@@ -306,18 +305,18 @@ class AdvancedFuelCalculator:
 
         cruise_info = self.calculate_cruise(cruise_distance, int(height_fl))
 
-        print(cruise_info, self.mass_kg)
+        #print(cruise_info, self.mass_kg)
 
         descent_info = self.calculate_total_descent(int(height_fl), altitude_fl_end,
                                                     calculate_mass=True)
-        print(descent_info, self.mass_kg)
+        #print(descent_info, self.mass_kg)
 
         total_info = (
             climb_info['total_time'] + cruise_info['total_time'] + descent_info['total_time'],
             climb_info['total_distance'] + cruise_info['total_distance'] + descent_info[
                 'total_distance'],
             climb_info['total_fuel'] + cruise_info['total_fuel'] + descent_info['total_fuel'])
-        print(total_info)
+        #print(total_info)
         return total_info
 
     def calculate_cruise(self, distance_km, flight_level):
