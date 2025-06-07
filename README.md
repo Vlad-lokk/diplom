@@ -38,7 +38,7 @@
 
 ### 1. Встановлення встановлдення бібліонтек
 
-- tkinter, matplotlib, PILб, numpy
+- tkinter, matplotlib, PIL, numpy
 
 ### 2. Запуск
 
