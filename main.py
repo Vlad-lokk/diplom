@@ -267,7 +267,7 @@ class AdvancedFuelCalculator:
         self.progress.pack(pady=5)
         self.widget_frame.update_idletasks()
         try:
-            for i in range(int(fl_test), 410):
+            for i in range(int(fl_test), 460):
                 self.set_progress(i / 4)
                 self.mass_kg = mass
                 result = self.calculate_cost(route, i, distance_km, altitude_fl_start,
